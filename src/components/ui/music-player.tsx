@@ -1,7 +1,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { GlassmorphicCard } from "./glassmorphic-card";
-import { Play, Pause, SkipForward, SkipBack, Volume2, VolumeX } from "lucide-react";
+import { Play, Pause, SkipForward, SkipBack, Volume2, VolumeX, Music as MusicIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface Track {
@@ -198,7 +198,7 @@ export const MusicPlayer = () => {
                     <span className="w-1 h-2 bg-primary rounded-full animate-[pulse_1s_ease-in-out_infinite_0.4s]"></span>
                   </div>
                 ) : (
-                  <Music size={16} className="text-primary" />
+                  <MusicIcon size={16} className="text-primary" />
                 )}
               </div>
               <div>
