@@ -9,10 +9,12 @@ import { Projects } from "@/components/sections/projects";
 import { Contact } from "@/components/sections/contact";
 import CustomCursor from "@/components/ui/cursor";
 import ParticlesBackground from "@/components/ui/particles-background";
+import MusicPlayer from "@/components/ui/music-player";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [showMusicPlayer, setShowMusicPlayer] = useState(false);
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -21,7 +23,22 @@ const Index = () => {
       setIsLoading(false);
     }, 1200);
 
-    return () => clearTimeout(timer);
+    // Show music player after a delay for better UX
+    const musicTimer = setTimeout(() => {
+      setShowMusicPlayer(true);
+    }, 5000);
+
+    const handleToggleMusic = () => {
+      setShowMusicPlayer(prev => !prev);
+    };
+
+    window.addEventListener("toggleMusic", handleToggleMusic);
+
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(musicTimer);
+      window.removeEventListener("toggleMusic", handleToggleMusic);
+    };
   }, []);
 
   if (isLoading) {
@@ -51,6 +68,8 @@ const Index = () => {
       />
       
       <Header />
+      
+      {showMusicPlayer && <MusicPlayer />}
       
       <main>
         <Hero />

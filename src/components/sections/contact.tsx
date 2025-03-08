@@ -1,18 +1,23 @@
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { GlassmorphicCard } from "../ui/glassmorphic-card";
 import { GlowingButton } from "../ui/glowing-button";
 import { TextReveal } from "../ui/animated-text";
-import { Mail, MapPin, Phone, Send } from "lucide-react";
+import { Mail, MapPin, Phone, Send, CheckCircle, AlertCircle } from "lucide-react";
 import { ParallaxSection } from "../ui/parallax-section";
+import emailjs from '@emailjs/browser';
 
 export const Contact = () => {
+  const formRef = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     subject: "",
     message: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<null | 'success' | 'error'>(null);
+  const [statusMessage, setStatusMessage] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -21,15 +26,35 @@ export const Contact = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Here you would typically send the form data to your backend or email service
+    setIsSubmitting(true);
+    setSubmitStatus(null);
     
-    // For now, we'll just reset the form
-    setFormData({
-      name: "",
-      email: "",
-      subject: "",
-      message: "",
+    if (!formRef.current) return;
+
+    // Replace with your actual EmailJS service ID, template ID, and public key
+    emailjs.sendForm(
+      'YOUR_SERVICE_ID',
+      'YOUR_TEMPLATE_ID',
+      formRef.current,
+      'YOUR_PUBLIC_KEY'
+    )
+    .then((result) => {
+      setSubmitStatus('success');
+      setStatusMessage("Message sent successfully!");
+      setFormData({
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
+      });
+    })
+    .catch((error) => {
+      setSubmitStatus('error');
+      setStatusMessage("Failed to send message. Please try again.");
+      console.error("EmailJS error:", error);
+    })
+    .finally(() => {
+      setIsSubmitting(false);
     });
   };
 
@@ -110,7 +135,20 @@ export const Contact = () => {
           {/* Contact Form */}
           <div className="lg:col-span-3">
             <GlassmorphicCard glowColor="blue" className="p-8">
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+                {submitStatus && (
+                  <div className={`p-4 rounded-lg flex items-center space-x-3 ${
+                    submitStatus === 'success' ? 'bg-green-500/10 text-green-500' : 'bg-red-500/10 text-red-500'
+                  }`}>
+                    {submitStatus === 'success' ? (
+                      <CheckCircle className="w-5 h-5 flex-shrink-0" />
+                    ) : (
+                      <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                    )}
+                    <span>{statusMessage}</span>
+                  </div>
+                )}
+                
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium mb-2">
@@ -178,9 +216,23 @@ export const Contact = () => {
                 </div>
                 
                 <div>
-                  <GlowingButton type="submit" glowColor="purple" className="w-full">
-                    <Send className="w-4 h-4 mr-2" />
-                    Send Message
+                  <GlowingButton 
+                    type="submit" 
+                    glowColor="purple" 
+                    className="w-full"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <div className="flex items-center justify-center">
+                        <div className="w-5 h-5 border-2 border-t-transparent border-white rounded-full animate-spin mr-2"></div>
+                        Sending...
+                      </div>
+                    ) : (
+                      <>
+                        <Send className="w-4 h-4 mr-2" />
+                        Send Message
+                      </>
+                    )}
                   </GlowingButton>
                 </div>
               </form>
