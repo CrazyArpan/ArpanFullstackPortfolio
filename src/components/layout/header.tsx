@@ -99,7 +99,7 @@ export const Header = () => {
             {musicPlaying ? <Music2 size={20} /> : <Music size={20} />}
           </button>
           
-          <GlowingButton glowColor="blue" size="sm" href="#contact">
+          <GlowingButton glowColor="blue" size="sm" onClick={() => window.location.href = "#contact"}>
             Get in Touch
           </GlowingButton>
         </div>
@@ -182,8 +182,10 @@ export const Header = () => {
                 className="w-full" 
                 glowColor="blue" 
                 size="md" 
-                href="#contact"
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={() => {
+                  window.location.href = "#contact";
+                  setMobileMenuOpen(false);
+                }}
               >
                 Get in Touch
               </GlowingButton>

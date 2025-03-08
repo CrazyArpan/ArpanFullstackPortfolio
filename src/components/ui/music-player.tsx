@@ -12,19 +12,19 @@ interface Track {
 
 const defaultTracks: Track[] = [
   {
-    name: "Ambient Melody",
-    artist: "Relaxing Tunes",
-    url: "https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0c6ff1bab.mp3?filename=ambient-piano-amp-strings-10711.mp3"
+    name: "Calm Waters",
+    artist: "Ambient Sounds",
+    url: "https://cdn.pixabay.com/download/audio/2022/03/15/audio_1ac2a05bc1.mp3?filename=relaxing-mountains-rivers-streams-running-water-18178.mp3"
   },
   {
-    name: "Chill Lofi",
-    artist: "Beats Studio",
-    url: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lofi-study-112191.mp3"
+    name: "Forest Morning",
+    artist: "Nature Sounds",
+    url: "https://cdn.pixabay.com/download/audio/2022/05/16/audio_288e8eb03f.mp3?filename=morning-garden-birds-nature-ambient-sound-127411.mp3"
   },
   {
-    name: "Electronic Dreams",
-    artist: "Digital Composer",
-    url: "https://cdn.pixabay.com/download/audio/2022/10/25/audio_946bcda2a8.mp3?filename=electronic-future-beats-117997.mp3"
+    name: "Meditation Piano",
+    artist: "Peaceful Melodies",
+    url: "https://cdn.pixabay.com/download/audio/2022/03/10/audio_c3d3ae174e.mp3?filename=soft-piano-ambient-music-115667.mp3"
   }
 ];
 
@@ -34,7 +34,7 @@ export const MusicPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
-  const [volume, setVolume] = useState(0.7);
+  const [volume, setVolume] = useState(0.4); // Lower default volume for background music
   const [isMuted, setIsMuted] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   
@@ -86,6 +86,19 @@ export const MusicPlayer = () => {
     };
   }, [currentTrackIndex, tracks.length]);
 
+  // Listen for toggle music event
+  useEffect(() => {
+    const handleToggleMusic = () => {
+      togglePlay();
+      setIsVisible(true);
+    };
+
+    window.addEventListener("toggleMusic", handleToggleMusic);
+    return () => {
+      window.removeEventListener("toggleMusic", handleToggleMusic);
+    };
+  }, []);
+
   // Toggle visibility with timeout
   useEffect(() => {
     if (isPlaying) {
@@ -103,7 +116,7 @@ export const MusicPlayer = () => {
     if (isPlaying) {
       audio.pause();
     } else {
-      audio.play();
+      audio.play().catch(e => console.error("Error playing audio:", e));
     }
     setIsPlaying(!isPlaying);
   };
@@ -176,9 +189,22 @@ export const MusicPlayer = () => {
         
         <div className="flex flex-col space-y-3">
           <div className="flex justify-between items-center">
-            <div className="flex-1">
-              <h4 className="font-medium text-sm truncate">{currentTrack.name}</h4>
-              <p className="text-xs text-foreground/60 truncate">{currentTrack.artist}</p>
+            <div className="flex-1 flex items-center">
+              <div className="w-8 h-8 flex items-center justify-center bg-primary/10 rounded-full mr-3">
+                {isPlaying ? (
+                  <div className="flex gap-0.5">
+                    <span className="w-1 h-3 bg-primary rounded-full animate-[pulse_1s_ease-in-out_infinite]"></span>
+                    <span className="w-1 h-4 bg-primary rounded-full animate-[pulse_1s_ease-in-out_infinite_0.2s]"></span>
+                    <span className="w-1 h-2 bg-primary rounded-full animate-[pulse_1s_ease-in-out_infinite_0.4s]"></span>
+                  </div>
+                ) : (
+                  <Music size={16} className="text-primary" />
+                )}
+              </div>
+              <div>
+                <h4 className="font-medium text-sm truncate">{currentTrack.name}</h4>
+                <p className="text-xs text-foreground/60 truncate">{currentTrack.artist}</p>
+              </div>
             </div>
             <div className="flex items-center space-x-1">
               <button 

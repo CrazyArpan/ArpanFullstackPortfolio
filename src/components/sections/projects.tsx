@@ -3,7 +3,14 @@ import React, { useState } from "react";
 import { ProjectCard } from "../ui/project-card";
 import { TextReveal } from "../ui/animated-text";
 import { GlowingButton } from "../ui/glowing-button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowLeft } from "lucide-react";
+import { 
+  Carousel, 
+  CarouselContent, 
+  CarouselItem, 
+  CarouselNext, 
+  CarouselPrevious 
+} from "../ui/carousel";
 
 const projectsData = [
   {
@@ -57,7 +64,7 @@ const projectsData = [
 ];
 
 export const Projects = () => {
-  const [visibleProjects, setVisibleProjects] = useState(3);
+  const [visibleProjects, setVisibleProjects] = useState(6);
 
   const handleShowMore = () => {
     setVisibleProjects(Math.min(visibleProjects + 3, projectsData.length));
@@ -92,7 +99,8 @@ export const Projects = () => {
           </TextReveal>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Mobile View: Card Grid */}
+        <div className="md:hidden grid grid-cols-1 gap-8">
           {projectsData.slice(0, visibleProjects).map((project) => (
             <ProjectCard
               key={project.id}
@@ -105,8 +113,33 @@ export const Projects = () => {
           ))}
         </div>
 
+        {/* Desktop View: Carousel */}
+        <div className="hidden md:block">
+          <Carousel className="w-full">
+            <CarouselContent className="-ml-4">
+              {projectsData.map((project) => (
+                <CarouselItem key={project.id} className="pl-4 md:basis-1/2 lg:basis-1/3">
+                  <div className="p-1">
+                    <ProjectCard
+                      title={project.title}
+                      description={project.description}
+                      image={project.image}
+                      tags={project.tags}
+                      link={project.link}
+                    />
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <div className="flex justify-center mt-8 gap-4">
+              <CarouselPrevious className="relative static translate-y-0 left-0" />
+              <CarouselNext className="relative static translate-y-0 right-0" />
+            </div>
+          </Carousel>
+        </div>
+
         {visibleProjects < projectsData.length && (
-          <div className="mt-12 text-center">
+          <div className="mt-12 text-center md:hidden">
             <GlowingButton
               onClick={handleShowMore}
               glowColor="purple"

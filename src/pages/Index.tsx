@@ -10,6 +10,7 @@ import { Contact } from "@/components/sections/contact";
 import CustomCursor from "@/components/ui/cursor";
 import ParticlesBackground from "@/components/ui/particles-background";
 import MusicPlayer from "@/components/ui/music-player";
+import TracingBeam from "@/components/ui/tracing-beam";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const Index = () => {
@@ -69,9 +70,11 @@ const Index = () => {
       
       <Header />
       
+      {!isMobile && <TracingBeam className="hidden md:block" />}
+      
       {showMusicPlayer && <MusicPlayer />}
       
-      <main>
+      <main className="md:ml-12">
         <Hero />
         <About />
         <Skills />
