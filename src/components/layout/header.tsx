@@ -64,7 +64,7 @@ export const Header = () => {
       )}
     >
       <div className="max-w-7xl mx-auto flex justify-between items-center">
-        <a href="#" className="text-2xl font-bold text-gradient">Portfolio</a>
+        <a href="#" className="text-2xl font-bold text-gradient">Arpan Portfolio</a>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
@@ -150,7 +150,7 @@ export const Header = () => {
         >
           <div className="p-6 flex flex-col h-full">
             <div className="flex justify-between items-center mb-8">
-              <a href="#" className="text-xl font-bold text-gradient">Portfolio</a>
+              <a href="#" className="text-xl font-bold text-gradient">Arpan Portfolio</a>
               <button 
                 className="p-2 bg-foreground/10 rounded-full"
                 onClick={() => setMobileMenuOpen(false)}
