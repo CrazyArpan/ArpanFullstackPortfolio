@@ -10,6 +10,7 @@ import { Contact } from "@/components/sections/contact";
 import ParticlesBackground from "@/components/ui/particles-background";
 import MusicPlayer from "@/components/ui/music-player";
 import TracingBeam from "@/components/ui/tracing-beam";
+import MouseTracker from "@/components/ui/mouse-tracker";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -20,6 +21,15 @@ const Index = () => {
   const isMobile = useIsMobile();
 
   useEffect(() => {
+    // Fix for potential mouse interaction glitches by stabilizing particle effects
+    const stabilizeParticles = () => {
+      // This creates a fresh render cycle to avoid mouse interactions causing glitches
+      document.body.style.pointerEvents = "none";
+      setTimeout(() => {
+        document.body.style.pointerEvents = "auto";
+      }, 100);
+    };
+
     // Simulating loading assets
     const timer = setTimeout(() => {
       setIsLoading(false);
@@ -27,6 +37,7 @@ const Index = () => {
       // Add a short delay before showing the content with animation
       setTimeout(() => {
         setAppReady(true);
+        stabilizeParticles();
       }, 100);
     }, 1200);
 
@@ -74,11 +85,14 @@ const Index = () => {
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
           <ParticlesBackground 
-            particleCount={isMobile ? 20 : 50} 
+            particleCount={isMobile ? 20 : 40} 
             particleColor="#3b82f6" 
             particleSize={1.5}
+            particleSpeed={0.3}
             interactive={!isMobile}
           />
+          
+          {!isMobile && <MouseTracker />}
           
           <Header />
           
@@ -86,7 +100,7 @@ const Index = () => {
           
           {showMusicPlayer && <MusicPlayer />}
           
-          <main className="md:ml-16">
+          <main className="md:ml-24">
             <Hero />
             <About />
             <Skills />
