@@ -2,6 +2,8 @@
 import React from "react";
 import { Github, Linkedin, Mail, Twitter } from "lucide-react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -55,6 +57,14 @@ export const Footer = () => {
     }
   };
 
+  const handleScrollToSection = (sectionId: string) => (e: React.MouseEvent) => {
+    e.preventDefault();
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <motion.footer 
       className="py-12 px-6 border-t border-border/30 relative z-30"
@@ -99,18 +109,25 @@ export const Footer = () => {
           <motion.div variants={itemAnimation}>
             <h4 className="font-bold mb-4">Quick Links</h4>
             <ul className="space-y-2">
-              {["Home", "About", "Skills", "Projects", "Contact"].map((link) => (
+              {[
+                { name: "Home", id: "hero" }, 
+                { name: "About", id: "about" }, 
+                { name: "Skills", id: "skills" }, 
+                { name: "Projects", id: "projects" }, 
+                { name: "Contact", id: "contact" }
+              ].map((link) => (
                 <motion.li 
-                  key={link}
+                  key={link.name}
                   whileHover={{ x: 5 }}
                   transition={{ type: "spring", stiffness: 300 }}
                 >
                   <a 
-                    href={`#${link.toLowerCase()}`} 
+                    href={`#${link.id}`}
+                    onClick={handleScrollToSection(link.id)}
                     className="text-foreground/70 hover:text-primary transition-colors inline-flex items-center group"
                   >
                     <span className="w-0 group-hover:w-2 h-0.5 bg-primary mr-0 group-hover:mr-2 transition-all duration-300"></span>
-                    {link}
+                    {link.name}
                   </a>
                 </motion.li>
               ))}
@@ -138,6 +155,19 @@ export const Footer = () => {
               </li>
               <li className="text-foreground/70">San Francisco, CA</li>
             </ul>
+            <motion.div 
+              className="mt-4"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <Button 
+                variant="outline" 
+                className="mt-2 w-full"
+                onClick={handleScrollToSection("contact")}
+              >
+                Get in Touch
+              </Button>
+            </motion.div>
           </motion.div>
         </div>
 
