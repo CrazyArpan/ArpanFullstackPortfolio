@@ -23,6 +23,16 @@ export const TracingBeam = ({ className }: TracingBeamProps) => {
     if (contentRef.current) {
       setSvgHeight(contentRef.current.offsetHeight);
     }
+    
+    // Update height on resize
+    const handleResize = () => {
+      if (contentRef.current) {
+        setSvgHeight(contentRef.current.offsetHeight);
+      }
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const y1 = useSpring(
@@ -63,21 +73,21 @@ export const TracingBeam = ({ className }: TracingBeamProps) => {
   return (
     <motion.div
       ref={ref}
-      className={cn("relative h-full w-24 left-0 fixed z-30", className)}
+      className={cn("relative h-full w-24 left-0 fixed z-40", className)}
     >
-      <div className="absolute -ml-px h-full w-[6px] left-12 bg-gradient-to-b from-primary/80 via-primary/60 to-primary/20" />
+      <div className="absolute -ml-px h-full w-[8px] left-12 bg-gradient-to-b from-primary/90 via-primary/70 to-primary/30" />
       <svg
-        className="sticky top-0 left-12 ml-px h-full w-[24px]"
-        width="24"
+        className="sticky top-0 left-12 ml-px h-full w-[32px]"
+        width="32"
         height={svgHeight}
-        viewBox={`0 0 24 ${svgHeight}`}
+        viewBox={`0 0 32 ${svgHeight}`}
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
         <motion.path
-          d={`M12 ${y1} L12 ${y2}`}
+          d={`M16 ${y1} L16 ${y2}`}
           stroke="url(#pulse-gradient)"
-          strokeWidth="6"
+          strokeWidth="8"
           strokeLinecap="round"
           className="animate-pulse"
         />
@@ -90,9 +100,9 @@ export const TracingBeam = ({ className }: TracingBeamProps) => {
             x2="0"
             y2={svgHeight}
           >
-            <stop stopColor="#60a5fa" />
-            <stop offset="0.5" stopColor="#c084fc" />
-            <stop offset="1" stopColor="#34d399" />
+            <stop stopColor="#60a5fa" stopOpacity="1" />
+            <stop offset="0.5" stopColor="#c084fc" stopOpacity="1" />
+            <stop offset="1" stopColor="#34d399" stopOpacity="1" />
           </linearGradient>
         </defs>
       </svg>
@@ -102,7 +112,7 @@ export const TracingBeam = ({ className }: TracingBeamProps) => {
       <motion.button
         onClick={scrollToTop}
         className={cn(
-          "absolute left-8 bottom-10 w-16 h-16 rounded-full bg-primary/30 backdrop-blur-sm flex items-center justify-center text-primary transition-all duration-300 border border-primary/50 hover:bg-primary/50",
+          "absolute left-8 bottom-10 w-16 h-16 rounded-full bg-primary/40 backdrop-blur-sm flex items-center justify-center text-primary transition-all duration-300 border border-primary/60 hover:bg-primary/60 z-50",
           showScrollTop ? "opacity-100" : "opacity-0 pointer-events-none"
         )}
         whileHover={{ scale: 1.1 }}

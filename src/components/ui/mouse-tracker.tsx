@@ -6,7 +6,7 @@ interface MouseTrackerProps {
   color?: string;
 }
 
-export const MouseTracker = ({ color = "#8b5cf6" }: MouseTrackerProps) => {
+export const MouseTracker = ({ color = "#f97316" }: MouseTrackerProps) => {
   const [mousePosition, setMousePosition] = useState({ x: -100, y: -100 });
   const [isHovering, setIsHovering] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
@@ -24,8 +24,8 @@ export const MouseTracker = ({ color = "#8b5cf6" }: MouseTrackerProps) => {
       const isClickable = 
         target.tagName === "A" || 
         target.tagName === "BUTTON" || 
-        target.closest("a") || 
-        target.closest("button") || 
+        target.closest("a") !== null || 
+        target.closest("button") !== null || 
         target.classList.contains("cursor-pointer") ||
         getComputedStyle(target).cursor === "pointer";
       
@@ -58,7 +58,7 @@ export const MouseTracker = ({ color = "#8b5cf6" }: MouseTrackerProps) => {
     <>
       {/* Outer ring */}
       <motion.div
-        className="fixed top-0 left-0 w-10 h-10 rounded-full pointer-events-none z-50 mix-blend-difference"
+        className="fixed top-0 left-0 w-10 h-10 rounded-full pointer-events-none z-[100] mix-blend-difference"
         style={{
           backgroundColor: "transparent",
           border: `2px solid ${color}`,
@@ -81,7 +81,7 @@ export const MouseTracker = ({ color = "#8b5cf6" }: MouseTrackerProps) => {
       
       {/* Inner dot */}
       <motion.div
-        className="fixed top-0 left-0 w-2 h-2 rounded-full bg-white pointer-events-none z-50 mix-blend-difference"
+        className="fixed top-0 left-0 w-2 h-2 rounded-full bg-white pointer-events-none z-[100] mix-blend-difference"
         style={{
           translateX: "-50%",
           translateY: "-50%",
