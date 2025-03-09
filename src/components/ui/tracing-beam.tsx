@@ -73,21 +73,24 @@ export const TracingBeam = ({ className }: TracingBeamProps) => {
   return (
     <motion.div
       ref={ref}
-      className={cn("relative h-full w-24 left-0 fixed z-40", className)}
+      className={cn("relative h-full w-16 left-0 fixed z-40", className)}
     >
-      <div className="absolute -ml-px h-full w-[8px] left-12 bg-gradient-to-b from-primary/90 via-primary/70 to-primary/30" />
+      {/* Background line - thinner and more subtle */}
+      <div className="absolute -ml-px h-full w-[3px] left-8 bg-gradient-to-b from-primary/50 via-primary/30 to-primary/10" />
+      
+      {/* Animated SVG - smaller but more vibrant */}
       <svg
-        className="sticky top-0 left-12 ml-px h-full w-[32px]"
-        width="32"
+        className="sticky top-0 left-8 ml-px h-full w-[16px]"
+        width="16"
         height={svgHeight}
-        viewBox={`0 0 32 ${svgHeight}`}
+        viewBox={`0 0 16 ${svgHeight}`}
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
         <motion.path
-          d={`M16 ${y1} L16 ${y2}`}
+          d={`M8 ${y1} L8 ${y2}`}
           stroke="url(#pulse-gradient)"
-          strokeWidth="8"
+          strokeWidth="4"
           strokeLinecap="round"
           className="animate-pulse"
         />
@@ -109,16 +112,17 @@ export const TracingBeam = ({ className }: TracingBeamProps) => {
 
       <div ref={contentRef} className="h-full" />
 
+      {/* Scroll to top button - smaller and more elegant */}
       <motion.button
         onClick={scrollToTop}
         className={cn(
-          "absolute left-8 bottom-10 w-16 h-16 rounded-full bg-primary/40 backdrop-blur-sm flex items-center justify-center text-primary transition-all duration-300 border border-primary/60 hover:bg-primary/60 z-50",
+          "absolute left-4 bottom-10 w-12 h-12 rounded-full bg-primary/40 backdrop-blur-sm flex items-center justify-center text-primary transition-all duration-300 border border-primary/60 hover:bg-primary/60 z-50",
           showScrollTop ? "opacity-100" : "opacity-0 pointer-events-none"
         )}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
       >
-        <ArrowUp size={24} />
+        <ArrowUp size={18} />
       </motion.button>
     </motion.div>
   );
