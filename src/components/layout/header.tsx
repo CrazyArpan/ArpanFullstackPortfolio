@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { GlowingButton } from "../ui/glowing-button";
 import { Menu, X } from "lucide-react";
 import { GlassmorphicCard } from "../ui/glassmorphic-card";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface NavItem {
   label: string;
@@ -22,6 +23,14 @@ export const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const isMobile = useIsMobile();
+
+  // Close mobile menu when switching to desktop view
+  useEffect(() => {
+    if (!isMobile && mobileMenuOpen) {
+      setMobileMenuOpen(false);
+    }
+  }, [isMobile, mobileMenuOpen]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,6 +55,28 @@ export const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileMenuOpen]);
+
+  const handleNavItemClick = (href: string) => {
+    if (isMobile) {
+      setMobileMenuOpen(false);
+    }
+    // Allow a small delay for the mobile menu to close before scrolling
+    setTimeout(() => {
+      document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+    }, isMobile ? 300 : 0);
+  };
+
   return (
     <header
       className={cn(
@@ -54,7 +85,7 @@ export const Header = () => {
       )}
     >
       <div className="max-w-7xl mx-auto flex justify-between items-center">
-        <a href="#" className="text-2xl font-bold text-gradient">Arpan Portfolio</a>
+        <a href="#" className="text-2xl font-bold text-gradient z-20">Arpan Portfolio</a>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
@@ -62,6 +93,10 @@ export const Header = () => {
             <a
               key={item.href}
               href={item.href}
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavItemClick(item.href);
+              }}
               className={cn(
                 "relative text-sm font-medium transition-colors duration-300 hover:text-primary",
                 activeSection === item.href.substring(1) ? "text-primary" : "text-foreground/80",
@@ -76,13 +111,19 @@ export const Header = () => {
 
         {/* Action buttons */}
         <div className="hidden md:flex items-center">
-          <GlowingButton glowColor="blue" size="sm" onClick={() => window.location.href = "#contact"}>
+          <GlowingButton 
+            glowColor="blue" 
+            size="sm" 
+            onClick={() => {
+              document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
+            }}
+          >
             Get in Touch
           </GlowingButton>
         </div>
 
         {/* Mobile Menu Toggle */}
-        <div className="flex items-center md:hidden">
+        <div className="flex items-center md:hidden z-20">
           <button 
             className="p-2 bg-foreground/10 rounded-full"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -96,7 +137,7 @@ export const Header = () => {
       {/* Mobile Navigation */}
       <div
         className={cn(
-          "fixed inset-0 z-40 md:hidden transition-all duration-500",
+          "fixed inset-0 z-40 md:hidden transition-all duration-300",
           mobileMenuOpen 
             ? "opacity-100 pointer-events-auto" 
             : "opacity-0 pointer-events-none translate-x-full"
@@ -114,7 +155,16 @@ export const Header = () => {
         >
           <div className="p-6 flex flex-col h-full">
             <div className="flex justify-between items-center mb-8">
-              <a href="#" className="text-xl font-bold text-gradient">Arpan Portfolio</a>
+              <a 
+                href="#home" 
+                className="text-xl font-bold text-gradient"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavItemClick("#home");
+                }}
+              >
+                Arpan Portfolio
+              </a>
               <button 
                 className="p-2 bg-foreground/10 rounded-full"
                 onClick={() => setMobileMenuOpen(false)}
@@ -134,7 +184,10 @@ export const Header = () => {
                       ? "bg-primary/10 text-primary" 
                       : "text-foreground/80 hover:bg-foreground/10"
                   )}
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavItemClick(item.href);
+                  }}
                 >
                   {item.label}
                 </a>
@@ -147,8 +200,7 @@ export const Header = () => {
                 glowColor="blue" 
                 size="md" 
                 onClick={() => {
-                  window.location.href = "#contact";
-                  setMobileMenuOpen(false);
+                  handleNavItemClick("#contact");
                 }}
               >
                 Get in Touch
