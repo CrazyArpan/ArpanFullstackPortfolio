@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
@@ -9,7 +8,6 @@ import { Projects } from "@/components/sections/projects";
 import { Contact } from "@/components/sections/contact";
 import ParticlesBackground from "@/components/ui/particles-background";
 import MusicPlayer from "@/components/ui/music-player";
-import TracingBeam from "@/components/ui/tracing-beam";
 import MouseTracker from "@/components/ui/mouse-tracker";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { motion, AnimatePresence } from "framer-motion";
@@ -157,7 +155,7 @@ const Index = () => {
     <AnimatePresence>
       {appReady && (
         <motion.div 
-          className="min-h-screen bg-background text-foreground"
+          className="min-h-screen bg-background text-foreground custom-scrollbar"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
@@ -174,11 +172,9 @@ const Index = () => {
           
           <Header />
           
-          {!isMobile && <TracingBeam className="hidden md:block" />}
-          
           {showMusicPlayer && <MusicPlayer />}
           
-          <main className="md:ml-24 relative z-30">
+          <main className="relative z-30">
             <Hero />
             <About />
             <Skills />

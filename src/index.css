@@ -41,6 +41,10 @@
     --glow-blue: 59 130 246;
     --glow-purple: 168 85 247;
     --glow-cyan: 34 211 238;
+    
+    /* Custom scrollbar colors */
+    --scrollbar-thumb: 221.2 83% 53.3%;
+    --scrollbar-track: 210 40% 96.1%;
   }
 
   .dark {
@@ -71,6 +75,10 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 224.3 76.3% 48%;
+    
+    /* Custom scrollbar colors for dark mode */
+    --scrollbar-thumb: 217.2 91.2% 59.8%;
+    --scrollbar-track: 222.2 47.4% 11.2%;
   }
 }
 
@@ -90,6 +98,32 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Space Grotesk', sans-serif;
+  }
+  
+  /* Custom Scrollbar Styles */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--scrollbar-track));
+    border-radius: 5px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--scrollbar-thumb));
+    border-radius: 5px;
+    border: 2px solid hsl(var(--scrollbar-track));
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary) / 0.8);
+  }
+  
+  /* For Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--scrollbar-thumb)) hsl(var(--scrollbar-track));
   }
 }
 
@@ -152,5 +186,10 @@
     border-right: 2px solid transparent;
     animation: typing 3.5s steps(40, end), blink 0.75s step-end infinite;
     overflow: hidden;
+  }
+  
+  /* Additional custom scrollbar class */
+  .custom-scrollbar {
+    scrollbar-gutter: stable;
   }
 }
