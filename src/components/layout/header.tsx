@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { GlowingButton } from "../ui/glowing-button";
-import { Menu, X, Music, Music2 } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { GlassmorphicCard } from "../ui/glassmorphic-card";
 
 interface NavItem {
@@ -22,7 +22,6 @@ export const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
-  const [musicPlaying, setMusicPlaying] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,15 +45,6 @@ export const Header = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const toggleMusic = () => {
-    // This will be handled by a global state or context in a real app
-    setMusicPlaying(!musicPlaying);
-    
-    // Dispatch a custom event that the MusicPlayer component will listen for
-    const event = new CustomEvent("toggleMusic");
-    window.dispatchEvent(event);
-  };
 
   return (
     <header
@@ -85,40 +75,14 @@ export const Header = () => {
         </nav>
 
         {/* Action buttons */}
-        <div className="hidden md:flex items-center space-x-4">
-          <button 
-            onClick={toggleMusic}
-            className={cn(
-              "p-2 rounded-full transition-all duration-300",
-              musicPlaying 
-                ? "bg-primary/20 text-primary" 
-                : "bg-foreground/10 text-foreground/70 hover:bg-foreground/20"
-            )}
-            aria-label={musicPlaying ? "Pause music" : "Play music"}
-          >
-            {musicPlaying ? <Music2 size={20} /> : <Music size={20} />}
-          </button>
-          
+        <div className="hidden md:flex items-center">
           <GlowingButton glowColor="blue" size="sm" onClick={() => window.location.href = "#contact"}>
             Get in Touch
           </GlowingButton>
         </div>
 
         {/* Mobile Menu Toggle */}
-        <div className="flex items-center space-x-3 md:hidden">
-          <button 
-            onClick={toggleMusic}
-            className={cn(
-              "p-2 rounded-full transition-all duration-300",
-              musicPlaying 
-                ? "bg-primary/20 text-primary" 
-                : "bg-foreground/10 text-foreground/70"
-            )}
-            aria-label={musicPlaying ? "Pause music" : "Play music"}
-          >
-            {musicPlaying ? <Music2 size={20} /> : <Music size={20} />}
-          </button>
-          
+        <div className="flex items-center md:hidden">
           <button 
             className="p-2 bg-foreground/10 rounded-full"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}

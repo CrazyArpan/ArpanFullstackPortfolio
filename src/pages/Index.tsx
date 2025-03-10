@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
@@ -7,14 +8,12 @@ import { Skills } from "@/components/sections/skills";
 import { Projects } from "@/components/sections/projects";
 import { Contact } from "@/components/sections/contact";
 import ParticlesBackground from "@/components/ui/particles-background";
-import MusicPlayer from "@/components/ui/music-player";
 import MouseTracker from "@/components/ui/mouse-tracker";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [showMusicPlayer, setShowMusicPlayer] = useState(false);
   const [appReady, setAppReady] = useState(false);
   const isMobile = useIsMobile();
 
@@ -39,21 +38,8 @@ const Index = () => {
       }, 100);
     }, 1200);
 
-    // Show music player after a delay for better UX
-    const musicTimer = setTimeout(() => {
-      setShowMusicPlayer(true);
-    }, 5000);
-
-    const handleToggleMusic = () => {
-      setShowMusicPlayer(prev => !prev);
-    };
-
-    window.addEventListener("toggleMusic", handleToggleMusic);
-
     return () => {
       clearTimeout(timer);
-      clearTimeout(musicTimer);
-      window.removeEventListener("toggleMusic", handleToggleMusic);
     };
   }, []);
 
@@ -171,8 +157,6 @@ const Index = () => {
           {!isMobile && <MouseTracker color="#f97316" />}
           
           <Header />
-          
-          {showMusicPlayer && <MusicPlayer />}
           
           <main className="relative z-30">
             <Hero />
