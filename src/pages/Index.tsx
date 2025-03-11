@@ -10,19 +10,15 @@ import { Contact } from "@/components/sections/contact";
 import ParticlesBackground from "@/components/ui/particles-background";
 import MouseTracker from "@/components/ui/mouse-tracker";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { motion } from "framer-motion";
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [appReady, setAppReady] = useState(false);
   const isMobile = useIsMobile();
 
   useEffect(() => {
     // Simple loading simulation with fixed duration
     const timer = setTimeout(() => {
       setIsLoading(false);
-      // Show content immediately after loading completes
-      setAppReady(true);
     }, 1200);
 
     return () => clearTimeout(timer);

@@ -7,7 +7,6 @@ import { motion } from "framer-motion";
 
 export const Hero = () => {
   const [showArrow, setShowArrow] = useState(false);
-  const [animationComplete, setAnimationComplete] = useState(false);
 
   useEffect(() => {
     // Show the arrow after a delay
@@ -15,15 +14,7 @@ export const Hero = () => {
       setShowArrow(true);
     }, 2000);
 
-    // Mark animation as complete after initial animations finish
-    const animTimeout = setTimeout(() => {
-      setAnimationComplete(true);
-    }, 4000);
-
-    return () => {
-      clearTimeout(timeout);
-      clearTimeout(animTimeout);
-    };
+    return () => clearTimeout(timeout);
   }, []);
 
   // Animation variants
@@ -62,11 +53,9 @@ export const Hero = () => {
     }
   };
 
-  // New 3D hover effect animation
+  // Safe 3D hover effect animation
   const card3dHover = {
     rest: { 
-      rotateX: 0, 
-      rotateY: 0, 
       scale: 1,
       transition: { 
         duration: 0.5, 
@@ -82,7 +71,7 @@ export const Hero = () => {
     }
   };
   
-  // Cool entry animation
+  // Safe entry animation
   const entranceAnimation = {
     hidden: { opacity: 0, scale: 0.8 },
     visible: { 
@@ -90,7 +79,7 @@ export const Hero = () => {
       scale: 1, 
       transition: { 
         duration: 0.8, 
-        ease: [0.34, 1.56, 0.64, 1] // Spring-like bounce effect
+        ease: [0.34, 1.56, 0.64, 1] 
       } 
     }
   };
@@ -131,13 +120,12 @@ export const Hero = () => {
             </ParallaxSection>
           </motion.div>
 
-          {/* New Cool 3D Card Animation */}
+          {/* Safe Card Animation */}
           <motion.div
             className="mb-12"
             initial="rest"
             whileHover="hover"
             variants={card3dHover}
-            style={{ perspective: 1000 }}
           >
             <motion.div 
               className="p-8 rounded-lg bg-background/50 backdrop-blur-sm border border-primary/10 shadow-lg"
@@ -147,9 +135,10 @@ export const Hero = () => {
             >
               <motion.h1 
                 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6"
+                initial={{ y: 10, opacity: 0 }}
                 animate={{
-                  y: [10, 0],
-                  opacity: [0, 1],
+                  y: 0,
+                  opacity: 1,
                   transition: { duration: 0.8, ease: "easeOut" }
                 }}
               >
@@ -159,9 +148,10 @@ export const Hero = () => {
               
               <motion.p
                 className="text-lg md:text-xl text-foreground/70 mb-8"
+                initial={{ y: 20, opacity: 0 }}
                 animate={{
-                  y: [20, 0],
-                  opacity: [0, 1],
+                  y: 0,
+                  opacity: 1,
                   transition: { duration: 0.8, delay: 0.3, ease: "easeOut" }
                 }}
               >
@@ -169,9 +159,10 @@ export const Hero = () => {
               </motion.p>
               
               <motion.div
+                initial={{ y: 30, opacity: 0 }}
                 animate={{
-                  y: [30, 0],
-                  opacity: [0, 1],
+                  y: 0,
+                  opacity: 1,
                   transition: { duration: 0.8, delay: 0.6, ease: "easeOut" }
                 }}
               >
@@ -213,49 +204,25 @@ export const Hero = () => {
         </a>
       </motion.div>
 
-      {/* Animated background elements with safe animations */}
-      <motion.div 
-        className="absolute top-1/3 right-[15%] w-32 h-32 rounded-full"
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ 
-          opacity: 0.3, 
-          scale: 1,
-          transition: { duration: 1.2, delay: 0.3 } 
-        }}
+      {/* Simple static background elements instead of animated ones */}
+      <div 
+        className="absolute top-1/3 right-[15%] w-32 h-32 rounded-full opacity-30"
         style={{ background: "linear-gradient(45deg, #3b82f6, #06b6d4)" }}
       />
       
-      {/* Floating elements with safe animation configuration */}
-      <motion.div 
-        className="absolute bottom-1/3 left-[10%] w-48 h-48 rounded-full blur-3xl"
-        animate={{ 
-          opacity: [0.1, 0.2, 0.1],
-          y: [0, -15, 0] 
-        }}
-        transition={{ 
-          duration: 8, 
-          repeat: Infinity,
-          repeatType: "reverse" as const
-        }}
+      <div 
+        className="absolute bottom-1/3 left-[10%] w-48 h-48 rounded-full blur-3xl opacity-10"
         style={{ background: "linear-gradient(135deg, #3b82f6, #8b5cf6)" }}
       />
       
-      <motion.div 
+      <div 
         className="absolute top-1/4 left-[15%] w-32 h-32 bg-glow-cyan/5 rounded-full blur-2xl -z-10"
-        animate={{ 
-          y: [0, -10, 0]
-        }}
-        transition={{ 
-          duration: 6, 
-          repeat: Infinity,
-          repeatType: "reverse" as const
-        }}
       />
       
-      {/* New animated particle effect */}
+      {/* Static particles instead of animated ones */}
       <div className="absolute inset-0 -z-10 pointer-events-none overflow-hidden">
         {[...Array(15)].map((_, i) => (
-          <motion.div
+          <div
             key={`particle-${i}`}
             className="absolute rounded-full bg-primary/30 blur-sm"
             style={{
@@ -263,17 +230,7 @@ export const Hero = () => {
               height: Math.random() * 8 + 2,
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, Math.random() * -100 - 50],
-              x: [0, (Math.random() - 0.5) * 50],
-              opacity: [0, 0.7, 0],
-              scale: [0, 1, 0.5],
-            }}
-            transition={{
-              duration: Math.random() * 10 + 10,
-              repeat: Infinity,
-              repeatDelay: Math.random() * 5,
+              opacity: Math.random() * 0.5,
             }}
           />
         ))}
