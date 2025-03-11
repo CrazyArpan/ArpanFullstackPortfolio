@@ -52,6 +52,8 @@ export const Header = () => {
     };
 
     window.addEventListener("scroll", handleScroll);
+    // Initial check to set active section
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -73,7 +75,10 @@ export const Header = () => {
     }
     // Allow a small delay for the mobile menu to close before scrolling
     setTimeout(() => {
-      document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
     }, isMobile ? 300 : 0);
   };
 
@@ -85,7 +90,7 @@ export const Header = () => {
       )}
     >
       <div className="max-w-7xl mx-auto flex justify-between items-center">
-        <a href="#" className="text-2xl font-bold text-gradient z-20">Arpan Portfolio</a>
+        <a href="#home" className="text-2xl font-bold text-gradient z-20">Arpan Portfolio</a>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
@@ -115,7 +120,7 @@ export const Header = () => {
             glowColor="blue" 
             size="sm" 
             onClick={() => {
-              document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
+              handleNavItemClick("#contact");
             }}
           >
             Get in Touch
@@ -134,17 +139,17 @@ export const Header = () => {
         </div>
       </div>
 
-      {/* Mobile Navigation - Fixed position to ensure visibility on any page */}
+      {/* Mobile Navigation - Fixed Full Screen Overlay */}
       <div
         className={cn(
           "fixed inset-0 z-40 md:hidden transition-all duration-300",
           mobileMenuOpen 
             ? "opacity-100 pointer-events-auto" 
-            : "opacity-0 pointer-events-none translate-x-full"
+            : "opacity-0 pointer-events-none"
         )}
       >
         <div 
-          className="absolute inset-0 bg-background/60 backdrop-blur-xl"
+          className="absolute inset-0 bg-background/80 backdrop-blur-xl"
           onClick={() => setMobileMenuOpen(false)}
         />
         
