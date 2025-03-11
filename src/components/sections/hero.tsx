@@ -53,7 +53,7 @@ export const Hero = () => {
     }
   };
 
-  // Floating animation for decorative elements
+  // Floating animation for decorative elements - fixed to use proper repeatType
   const floatingAnimation = {
     initial: { y: 0 },
     animate: {
@@ -61,7 +61,7 @@ export const Hero = () => {
       transition: {
         duration: 6,
         repeat: Infinity,
-        repeatType: "reverse",
+        repeatType: "reverse" as const, // Fixed: Use a specific valid value and type assertion
         ease: "easeInOut"
       }
     }
@@ -79,7 +79,7 @@ export const Hero = () => {
   
   const revealText = {
     hidden: { opacity: 0 },
-    visible: delay => ({
+    visible: (delay: number) => ({
       opacity: 1,
       transition: { 
         staggerChildren: 0.1,
@@ -256,29 +256,48 @@ export const Hero = () => {
         </a>
       </motion.div>
 
-      {/* Decorative elements with floating animation */}
+      {/* Decorative elements with floating animation - Fixed animations */}
       <motion.div 
         className="absolute top-1/3 right-[10%] w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10"
-        variants={floatingAnimation}
-        initial="initial"
-        animate="animate"
+        initial={{ y: 0 }}
+        animate={{ 
+          y: [0, -15, 0],
+          transition: {
+            duration: 6,
+            repeat: Infinity,
+            repeatType: "reverse" as const,
+            ease: "easeInOut"
+          }
+        }}
       />
       
       <motion.div 
         className="absolute bottom-1/4 left-[5%] w-96 h-96 bg-glow-purple/5 rounded-full blur-3xl -z-10"
-        variants={floatingAnimation}
-        initial="initial"
-        animate="animate"
-        transition={{ delay: 1.5 }}
+        initial={{ y: 0 }}
+        animate={{ 
+          y: [0, -15, 0],
+          transition: {
+            duration: 6,
+            repeat: Infinity,
+            repeatType: "mirror" as const,
+            ease: "easeInOut"
+          }
+        }}
       />
       
       {/* Additional floating elements for visual interest */}
       <motion.div 
         className="absolute top-1/4 left-[15%] w-32 h-32 bg-glow-cyan/5 rounded-full blur-2xl -z-10"
-        variants={floatingAnimation}
-        initial="initial"
-        animate="animate"
-        transition={{ delay: 0.8 }}
+        initial={{ y: 0 }}
+        animate={{ 
+          y: [0, -15, 0],
+          transition: {
+            duration: 6,
+            repeat: Infinity,
+            repeatType: "loop" as const,
+            ease: "easeInOut"
+          }
+        }}
       />
       
       {/* New animated particle effect */}
