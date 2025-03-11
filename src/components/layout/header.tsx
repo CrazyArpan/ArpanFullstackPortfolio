@@ -134,7 +134,7 @@ export const Header = () => {
         </div>
       </div>
 
-      {/* Mobile Navigation */}
+      {/* Mobile Navigation - Fixed position to ensure visibility on any page */}
       <div
         className={cn(
           "fixed inset-0 z-40 md:hidden transition-all duration-300",
