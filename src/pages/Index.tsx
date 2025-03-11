@@ -18,29 +18,19 @@ const Index = () => {
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    // Fix for potential mouse interaction glitches by stabilizing particle effects
-    const stabilizeParticles = () => {
-      // This creates a fresh render cycle to avoid mouse interactions causing glitches
-      document.body.style.pointerEvents = "none";
-      setTimeout(() => {
-        document.body.style.pointerEvents = "auto";
-      }, 100);
-    };
-
-    // Simulating loading assets
-    const timer = setTimeout(() => {
+    // Simulating loading assets with more stable timing
+    const loadTimer = setTimeout(() => {
       setIsLoading(false);
       
       // Add a short delay before showing the content with animation
-      setTimeout(() => {
+      const readyTimer = setTimeout(() => {
         setAppReady(true);
-        stabilizeParticles();
       }, 100);
+      
+      return () => clearTimeout(readyTimer);
     }, 1200);
 
-    return () => {
-      clearTimeout(timer);
-    };
+    return () => clearTimeout(loadTimer);
   }, []);
 
   if (isLoading) {
@@ -142,9 +132,9 @@ const Index = () => {
       {appReady && (
         <motion.div 
           className="min-h-screen bg-background text-foreground custom-scrollbar"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4 }}
         >
           <ParticlesBackground 
             particleCount={isMobile ? 20 : 40} 

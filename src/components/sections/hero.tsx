@@ -53,7 +53,7 @@ export const Hero = () => {
     }
   };
 
-  // Floating animation for decorative elements - fixed to use proper repeatType
+  // Floating animation for decorative elements with typed repeatType
   const floatingAnimation = {
     initial: { y: 0 },
     animate: {
@@ -61,7 +61,7 @@ export const Hero = () => {
       transition: {
         duration: 6,
         repeat: Infinity,
-        repeatType: "reverse" as const, // Fixed: Use a specific valid value and type assertion
+        repeatType: "reverse" as const, // Fix: Properly typed
         ease: "easeInOut"
       }
     }
@@ -256,31 +256,39 @@ export const Hero = () => {
         </a>
       </motion.div>
 
-      {/* Decorative elements with floating animation - Fixed animations */}
+      {/* Decorative elements with floating animation */}
       <motion.div 
         className="absolute top-1/3 right-[10%] w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10"
-        initial={{ y: 0 }}
-        animate={{ 
-          y: [0, -15, 0],
-          transition: {
-            duration: 6,
-            repeat: Infinity,
-            repeatType: "reverse" as const,
-            ease: "easeInOut"
+        initial="initial"
+        animate="animate"
+        variants={{
+          initial: { y: 0 },
+          animate: {
+            y: [0, -15, 0],
+            transition: { 
+              duration: 6, 
+              repeat: Infinity, 
+              repeatType: "reverse" as const,
+              ease: "easeInOut" 
+            }
           }
         }}
       />
       
       <motion.div 
         className="absolute bottom-1/4 left-[5%] w-96 h-96 bg-glow-purple/5 rounded-full blur-3xl -z-10"
-        initial={{ y: 0 }}
-        animate={{ 
-          y: [0, -15, 0],
-          transition: {
-            duration: 6,
-            repeat: Infinity,
-            repeatType: "mirror" as const,
-            ease: "easeInOut"
+        initial="initial"
+        animate="animate"
+        variants={{
+          initial: { y: 0 },
+          animate: {
+            y: [0, -15, 0],
+            transition: { 
+              duration: 6, 
+              repeat: Infinity, 
+              repeatType: "mirror" as const,
+              ease: "easeInOut" 
+            }
           }
         }}
       />
@@ -288,14 +296,18 @@ export const Hero = () => {
       {/* Additional floating elements for visual interest */}
       <motion.div 
         className="absolute top-1/4 left-[15%] w-32 h-32 bg-glow-cyan/5 rounded-full blur-2xl -z-10"
-        initial={{ y: 0 }}
-        animate={{ 
-          y: [0, -15, 0],
-          transition: {
-            duration: 6,
-            repeat: Infinity,
-            repeatType: "loop" as const,
-            ease: "easeInOut"
+        initial="initial"
+        animate="animate"
+        variants={{
+          initial: { y: 0 },
+          animate: {
+            y: [0, -15, 0],
+            transition: { 
+              duration: 6, 
+              repeat: Infinity, 
+              repeatType: "loop" as const,
+              ease: "easeInOut" 
+            }
           }
         }}
       />
