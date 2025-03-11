@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 
 export const Hero = () => {
   const [showArrow, setShowArrow] = useState(false);
+  const [animationComplete, setAnimationComplete] = useState(false);
 
   useEffect(() => {
     // Show the arrow after a delay
@@ -14,7 +15,15 @@ export const Hero = () => {
       setShowArrow(true);
     }, 2000);
 
-    return () => clearTimeout(timeout);
+    // Mark animation as complete after initial animations finish
+    const animTimeout = setTimeout(() => {
+      setAnimationComplete(true);
+    }, 4000);
+
+    return () => {
+      clearTimeout(timeout);
+      clearTimeout(animTimeout);
+    };
   }, []);
 
   // Animation variants
@@ -53,42 +62,40 @@ export const Hero = () => {
     }
   };
 
-  // Floating animation for decorative elements with typed repeatType
-  const floatingAnimation = {
-    initial: { y: 0 },
-    animate: {
-      y: [0, -15, 0],
-      transition: {
-        duration: 6,
-        repeat: Infinity,
-        repeatType: "reverse" as const, // Fix: Properly typed
-        ease: "easeInOut"
-      }
+  // New 3D hover effect animation
+  const card3dHover = {
+    rest: { 
+      rotateX: 0, 
+      rotateY: 0, 
+      scale: 1,
+      transition: { 
+        duration: 0.5, 
+        ease: "easeOut" 
+      } 
+    },
+    hover: { 
+      scale: 1.03, 
+      transition: { 
+        duration: 0.4, 
+        ease: "easeOut" 
+      } 
     }
   };
   
-  // New text animation variants
-  const letterAnimation = {
-    hidden: { opacity: 0, y: 50 },
+  // Cool entry animation
+  const entranceAnimation = {
+    hidden: { opacity: 0, scale: 0.8 },
     visible: { 
       opacity: 1, 
-      y: 0,
-      transition: { type: "spring", stiffness: 100, damping: 15 }
+      scale: 1, 
+      transition: { 
+        duration: 0.8, 
+        ease: [0.34, 1.56, 0.64, 1] // Spring-like bounce effect
+      } 
     }
   };
-  
-  const revealText = {
-    hidden: { opacity: 0 },
-    visible: (delay: number) => ({
-      opacity: 1,
-      transition: { 
-        staggerChildren: 0.1,
-        delayChildren: delay,
-      }
-    })
-  };
 
-  // Text content for animated title
+  // Text content
   const titleText = "Creating beautiful";
   const subtitleText = "digital experiences";
 
@@ -99,32 +106,6 @@ export const Hero = () => {
     >
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent -z-10 pointer-events-none"></div>
-      
-      {/* Animated background elements */}
-      <motion.div 
-        className="absolute top-1/4 right-[15%] w-32 h-32 rounded-full"
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ 
-          opacity: 0.3, 
-          scale: 1,
-          transition: { duration: 1.2, delay: 0.3 } 
-        }}
-        style={{ background: "linear-gradient(45deg, #3b82f6, #06b6d4)" }}
-      />
-      
-      <motion.div 
-        className="absolute bottom-1/3 left-[10%] w-48 h-48 rounded-full blur-3xl"
-        initial={{ opacity: 0 }}
-        animate={{ 
-          opacity: [0, 0.2, 0.1, 0.2, 0], 
-          transition: { 
-            duration: 8, 
-            repeat: Infinity,
-            times: [0, 0.25, 0.5, 0.75, 1]
-          } 
-        }}
-        style={{ background: "linear-gradient(135deg, #3b82f6, #8b5cf6)" }}
-      />
       
       {/* Main content */}
       <div className="container mx-auto px-6 lg:px-8 relative z-10">
@@ -150,72 +131,48 @@ export const Hero = () => {
             </ParallaxSection>
           </motion.div>
 
-          <motion.div variants={item}>
-            <ParallaxSection strength={25} className="mb-8">
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
-                {/* Character-by-character animation for title text */}
-                <motion.div
-                  className="inline-block"
-                  custom={0.5}
-                  initial="hidden"
-                  animate="visible"
-                  variants={revealText}
-                >
-                  {titleText.split("").map((char, index) => (
-                    <motion.span
-                      key={`title-${index}`}
-                      variants={letterAnimation}
-                      className="inline-block"
-                      style={{ display: char === " " ? "inline" : "inline-block" }}
-                    >
-                      {char === " " ? "\u00A0" : char}
-                    </motion.span>
-                  ))}
-                </motion.div>
-                <br />
-                <motion.div
-                  className="text-gradient inline-block"
-                  custom={1}
-                  initial="hidden"
-                  animate="visible"
-                  variants={revealText}
-                >
-                  {subtitleText.split("").map((char, index) => (
-                    <motion.span
-                      key={`subtitle-${index}`}
-                      variants={letterAnimation}
-                      className="inline-block"
-                      style={{ display: char === " " ? "inline" : "inline-block" }}
-                    >
-                      {char === " " ? "\u00A0" : char}
-                    </motion.span>
-                  ))}
-                </motion.div>
-              </h1>
-            </ParallaxSection>
-          </motion.div>
-
-          <motion.div variants={fadeInUp}>
-            <ParallaxSection strength={15}>
-              <div className="text-lg md:text-xl text-foreground/70 mb-8">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ 
-                    opacity: 1, 
-                    y: 0,
-                    transition: { duration: 0.8, delay: 1.5 }
-                  }}
-                >
-                  I design and build responsive, interactive websites and applications with a focus on user experience and performance.
-                </motion.div>
-              </div>
-
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ 
-                  opacity: 1, 
-                  scale: 1,
-                  transition: { delay: 2, duration: 0.5, type: "spring" }
+          {/* New Cool 3D Card Animation */}
+          <motion.div
+            className="mb-12"
+            initial="rest"
+            whileHover="hover"
+            variants={card3dHover}
+            style={{ perspective: 1000 }}
+          >
+            <motion.div 
+              className="p-8 rounded-lg bg-background/50 backdrop-blur-sm border border-primary/10 shadow-lg"
+              initial="hidden"
+              animate="visible"
+              variants={entranceAnimation}
+            >
+              <motion.h1 
+                className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6"
+                animate={{
+                  y: [10, 0],
+                  opacity: [0, 1],
+                  transition: { duration: 0.8, ease: "easeOut" }
+                }}
+              >
+                <span className="block mb-2">{titleText}</span>
+                <span className="text-gradient">{subtitleText}</span>
+              </motion.h1>
+              
+              <motion.p
+                className="text-lg md:text-xl text-foreground/70 mb-8"
+                animate={{
+                  y: [20, 0],
+                  opacity: [0, 1],
+                  transition: { duration: 0.8, delay: 0.3, ease: "easeOut" }
+                }}
+              >
+                I design and build responsive, interactive websites and applications with a focus on user experience and performance.
+              </motion.p>
+              
+              <motion.div
+                animate={{
+                  y: [30, 0],
+                  opacity: [0, 1],
+                  transition: { duration: 0.8, delay: 0.6, ease: "easeOut" }
                 }}
               >
                 <div className="flex flex-wrap gap-4">
@@ -227,7 +184,7 @@ export const Hero = () => {
                   </GlowingButton>
                 </div>
               </motion.div>
-            </ParallaxSection>
+            </motion.div>
           </motion.div>
         </motion.div>
       </div>
@@ -256,59 +213,42 @@ export const Hero = () => {
         </a>
       </motion.div>
 
-      {/* Decorative elements with floating animation */}
+      {/* Animated background elements with safe animations */}
       <motion.div 
-        className="absolute top-1/3 right-[10%] w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10"
-        initial="initial"
-        animate="animate"
-        variants={{
-          initial: { y: 0 },
-          animate: {
-            y: [0, -15, 0],
-            transition: { 
-              duration: 6, 
-              repeat: Infinity, 
-              repeatType: "reverse" as const,
-              ease: "easeInOut" 
-            }
-          }
+        className="absolute top-1/3 right-[15%] w-32 h-32 rounded-full"
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ 
+          opacity: 0.3, 
+          scale: 1,
+          transition: { duration: 1.2, delay: 0.3 } 
         }}
+        style={{ background: "linear-gradient(45deg, #3b82f6, #06b6d4)" }}
       />
       
+      {/* Floating elements with safe animation configuration */}
       <motion.div 
-        className="absolute bottom-1/4 left-[5%] w-96 h-96 bg-glow-purple/5 rounded-full blur-3xl -z-10"
-        initial="initial"
-        animate="animate"
-        variants={{
-          initial: { y: 0 },
-          animate: {
-            y: [0, -15, 0],
-            transition: { 
-              duration: 6, 
-              repeat: Infinity, 
-              repeatType: "mirror" as const,
-              ease: "easeInOut" 
-            }
-          }
+        className="absolute bottom-1/3 left-[10%] w-48 h-48 rounded-full blur-3xl"
+        animate={{ 
+          opacity: [0.1, 0.2, 0.1],
+          y: [0, -15, 0] 
         }}
+        transition={{ 
+          duration: 8, 
+          repeat: Infinity,
+          repeatType: "reverse" as const
+        }}
+        style={{ background: "linear-gradient(135deg, #3b82f6, #8b5cf6)" }}
       />
       
-      {/* Additional floating elements for visual interest */}
       <motion.div 
         className="absolute top-1/4 left-[15%] w-32 h-32 bg-glow-cyan/5 rounded-full blur-2xl -z-10"
-        initial="initial"
-        animate="animate"
-        variants={{
-          initial: { y: 0 },
-          animate: {
-            y: [0, -15, 0],
-            transition: { 
-              duration: 6, 
-              repeat: Infinity, 
-              repeatType: "loop" as const,
-              ease: "easeInOut" 
-            }
-          }
+        animate={{ 
+          y: [0, -10, 0]
+        }}
+        transition={{ 
+          duration: 6, 
+          repeat: Infinity,
+          repeatType: "reverse" as const
         }}
       />
       
@@ -333,7 +273,7 @@ export const Hero = () => {
             transition={{
               duration: Math.random() * 10 + 10,
               repeat: Infinity,
-              delay: Math.random() * 5,
+              repeatDelay: Math.random() * 5,
             }}
           />
         ))}
