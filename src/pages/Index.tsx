@@ -32,9 +32,6 @@ const Index = () => {
             <div className="absolute inset-0 rounded-full border-4 border-t-primary border-r-transparent border-b-transparent border-l-transparent animate-spin"></div>
             <div className="absolute inset-2 rounded-full border-4 border-t-transparent border-r-primary border-b-transparent border-l-transparent animate-spin animation-delay-150"></div>
           </div>
-          <h1 className="mt-8 text-2xl font-bold text-gradient">
-            Arpan's Portfolio
-          </h1>
         </div>
       </div>
     );

@@ -89,7 +89,7 @@ export const Header = () => {
       )}
     >
       <div className="max-w-7xl mx-auto flex justify-between items-center">
-        <a href="#home" className="text-2xl font-bold text-gradient z-20">Arpan's Portfolio</a>
+        <div className="w-10"></div> {/* Empty div to maintain spacing */}
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
@@ -159,17 +159,7 @@ export const Header = () => {
               mobileMenuOpen ? "right-0" : "-right-full"
             )}
           >
-            <div className="flex justify-between items-center mb-8">
-              <a 
-                href="#home" 
-                className="text-xl font-bold text-gradient"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleNavItemClick("#home");
-                }}
-              >
-                Arpan's Portfolio
-              </a>
+            <div className="flex justify-end items-center mb-8">
               <button 
                 className="p-2 bg-foreground/10 rounded-full"
                 onClick={() => setMobileMenuOpen(false)}
