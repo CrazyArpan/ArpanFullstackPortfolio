@@ -6,6 +6,16 @@ import { GlowingButton } from "../ui/glowing-button";
 import { Download, User } from "lucide-react";
 
 export const About = () => {
+  const handleDownloadCV = () => {
+    // Create a link to download the CV
+    const link = document.createElement('a');
+    link.href = '/resume.pdf'; // Path to the CV file in the public folder
+    link.download = 'resume.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <section
       id="about"
@@ -71,7 +81,11 @@ export const About = () => {
                 More About Me
               </GlowingButton>
               
-              <GlowingButton variant="outline" glowColor="blue">
+              <GlowingButton 
+                variant="outline" 
+                glowColor="blue"
+                onClick={handleDownloadCV}
+              >
                 <Download size={16} className="mr-2" />
                 Download CV
               </GlowingButton>
