@@ -90,7 +90,7 @@ export const Header = () => {
       )}
     >
       <div className="max-w-7xl mx-auto flex justify-between items-center">
-        <a href="#home" className="text-2xl font-bold text-gradient z-20">Arpan Portfolio</a>
+        <a href="#home" className="text-2xl font-bold text-gradient z-20">Arpan's Portfolio</a>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
@@ -139,10 +139,10 @@ export const Header = () => {
         </div>
       </div>
 
-      {/* Mobile Navigation - Fixed Full Screen Overlay */}
+      {/* Mobile Navigation - Fixed Full Screen Overlay - FIXED for better mobile experience */}
       <div
         className={cn(
-          "fixed inset-0 z-40 md:hidden transition-all duration-300",
+          "fixed inset-0 z-10 md:hidden transition-all duration-300",
           mobileMenuOpen 
             ? "opacity-100 pointer-events-auto" 
             : "opacity-0 pointer-events-none"
@@ -153,66 +153,65 @@ export const Header = () => {
           onClick={() => setMobileMenuOpen(false)}
         />
         
-        <GlassmorphicCard 
-          className="absolute right-0 top-0 bottom-0 w-72 rounded-l-2xl rounded-r-none p-0 overflow-y-auto"
-          glowColor="blue"
-          glowIntensity="low"
+        <div 
+          className={cn(
+            "absolute top-0 bottom-0 w-full max-w-xs bg-background/90 backdrop-blur-lg border-r border-border p-6 transition-transform duration-300 flex flex-col h-full",
+            mobileMenuOpen ? "right-0" : "-right-full"
+          )}
         >
-          <div className="p-6 flex flex-col h-full">
-            <div className="flex justify-between items-center mb-8">
-              <a 
-                href="#home" 
-                className="text-xl font-bold text-gradient"
+          <div className="flex justify-between items-center mb-8">
+            <a 
+              href="#home" 
+              className="text-xl font-bold text-gradient"
+              onClick={(e) => {
+                e.preventDefault();
+                handleNavItemClick("#home");
+              }}
+            >
+              Arpan's Portfolio
+            </a>
+            <button 
+              className="p-2 bg-foreground/10 rounded-full"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <X size={20} />
+            </button>
+          </div>
+          
+          <nav className="flex flex-col space-y-6 mt-4">
+            {navItems.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  "text-lg font-medium py-2 px-4 rounded-lg transition-all duration-300",
+                  activeSection === item.href.substring(1) 
+                    ? "bg-primary/10 text-primary" 
+                    : "text-foreground/80 hover:bg-foreground/10"
+                )}
                 onClick={(e) => {
                   e.preventDefault();
-                  handleNavItemClick("#home");
+                  handleNavItemClick(item.href);
                 }}
               >
-                Arpan Portfolio
+                {item.label}
               </a>
-              <button 
-                className="p-2 bg-foreground/10 rounded-full"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <X size={20} />
-              </button>
-            </div>
-            
-            <nav className="flex flex-col space-y-6">
-              {navItems.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className={cn(
-                    "text-lg font-medium py-2 px-4 rounded-lg transition-all duration-300",
-                    activeSection === item.href.substring(1) 
-                      ? "bg-primary/10 text-primary" 
-                      : "text-foreground/80 hover:bg-foreground/10"
-                  )}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavItemClick(item.href);
-                  }}
-                >
-                  {item.label}
-                </a>
-              ))}
-            </nav>
-            
-            <div className="mt-auto pt-6">
-              <GlowingButton 
-                className="w-full" 
-                glowColor="blue" 
-                size="md" 
-                onClick={() => {
-                  handleNavItemClick("#contact");
-                }}
-              >
-                Get in Touch
-              </GlowingButton>
-            </div>
+            ))}
+          </nav>
+          
+          <div className="mt-auto pt-6">
+            <GlowingButton 
+              className="w-full" 
+              glowColor="blue" 
+              size="md" 
+              onClick={() => {
+                handleNavItemClick("#contact");
+              }}
+            >
+              Get in Touch
+            </GlowingButton>
           </div>
-        </GlassmorphicCard>
+        </div>
       </div>
     </header>
   );
