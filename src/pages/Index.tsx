@@ -26,8 +26,8 @@ const Index = () => {
 
   if (isLoading) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center bg-background z-50">
-        <div className="flex flex-col items-center">
+      <div className="fixed inset-0 flex items-center justify-center bg-background z-50 backdrop-blur-xl">
+        <div className="flex flex-col items-center glass-card p-8 rounded-xl bg-background/20 shadow-[0_8px_32px_rgba(0,0,0,0.1)] border border-white/10">
           <div className="relative w-20 h-20">
             <div className="absolute inset-0 rounded-full border-4 border-t-primary border-r-transparent border-b-transparent border-l-transparent animate-spin"></div>
             <div className="absolute inset-2 rounded-full border-4 border-t-transparent border-r-primary border-b-transparent border-l-transparent animate-spin animation-delay-150"></div>

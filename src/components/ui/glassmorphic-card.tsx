@@ -7,6 +7,9 @@ interface GlassmorphicCardProps extends React.HTMLAttributes<HTMLDivElement> {
   glowColor?: "blue" | "purple" | "cyan" | "none";
   glowIntensity?: "low" | "medium" | "high";
   interactive?: boolean;
+  blurStrength?: "light" | "medium" | "strong";
+  backgroundOpacity?: "low" | "medium" | "high";
+  border?: boolean;
 }
 
 export const GlassmorphicCard = ({
@@ -15,6 +18,9 @@ export const GlassmorphicCard = ({
   glowColor = "blue",
   glowIntensity = "medium",
   interactive = true,
+  blurStrength = "medium",
+  backgroundOpacity = "medium",
+  border = true,
   ...props
 }: GlassmorphicCardProps) => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -45,13 +51,33 @@ export const GlassmorphicCard = ({
     high: "before:opacity-30"
   };
 
+  // Define blur strength
+  const blurMap = {
+    light: "backdrop-blur-md",
+    medium: "backdrop-blur-xl",
+    strong: "backdrop-blur-2xl"
+  };
+
+  // Define background opacity
+  const bgOpacityMap = {
+    low: "bg-background/10",
+    medium: "bg-background/20",
+    high: "bg-background/30"
+  };
+
   const glowIntensityClass = intensityMap[glowIntensity];
+  const blurClass = blurMap[blurStrength];
+  const bgOpacityClass = bgOpacityMap[backgroundOpacity];
 
   return (
     <div
       ref={cardRef}
       className={cn(
         "relative rounded-2xl glass-card overflow-hidden transition-all duration-300",
+        blurClass,
+        bgOpacityClass,
+        border && "border border-white/20 dark:border-white/10",
+        "shadow-[0_8px_32px_rgba(0,0,0,0.1)] dark:shadow-[0_8px_32px_rgba(255,255,255,0.05)]",
         interactive && "hover:scale-[1.02] hover:shadow-lg",
         isHovering && interactive && "shadow-lg",
         className,

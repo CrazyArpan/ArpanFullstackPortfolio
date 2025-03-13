@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { GlowingButton } from "../ui/glowing-button";
 import { Menu, X } from "lucide-react";
-import { GlassmorphicCard } from "../ui/glassmorphic-card";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 interface NavItem {
@@ -86,7 +85,7 @@ export const Header = () => {
     <header
       className={cn(
         "fixed top-0 left-0 w-full z-50 transition-all duration-300 py-4 px-6 lg:px-8",
-        scrolled && "backdrop-blur-lg bg-background/30 shadow-sm"
+        scrolled ? "backdrop-blur-xl bg-background/30 shadow-md border-b border-white/10" : ""
       )}
     >
       <div className="max-w-7xl mx-auto flex justify-between items-center">
@@ -130,7 +129,7 @@ export const Header = () => {
         {/* Mobile Menu Toggle */}
         <div className="flex items-center md:hidden z-20">
           <button 
-            className="p-2 bg-foreground/10 rounded-full"
+            className="p-2 bg-foreground/10 rounded-full backdrop-blur-lg"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
           >
@@ -139,80 +138,82 @@ export const Header = () => {
         </div>
       </div>
 
-      {/* Mobile Navigation - Fixed Full Screen Overlay - FIXED for better mobile experience */}
-      <div
-        className={cn(
-          "fixed inset-0 z-10 md:hidden transition-all duration-300",
-          mobileMenuOpen 
-            ? "opacity-100 pointer-events-auto" 
-            : "opacity-0 pointer-events-none"
-        )}
-      >
-        <div 
-          className="absolute inset-0 bg-background/80 backdrop-blur-xl"
-          onClick={() => setMobileMenuOpen(false)}
-        />
-        
-        <div 
+      {/* Mobile Navigation - Full Screen Overlay with Glassmorphism */}
+      {isMobile && (
+        <div
           className={cn(
-            "absolute top-0 bottom-0 w-full max-w-xs bg-background/90 backdrop-blur-lg border-r border-border p-6 transition-transform duration-300 flex flex-col h-full",
-            mobileMenuOpen ? "right-0" : "-right-full"
+            "fixed inset-0 z-10 transition-all duration-300",
+            mobileMenuOpen 
+              ? "opacity-100 pointer-events-auto" 
+              : "opacity-0 pointer-events-none"
           )}
         >
-          <div className="flex justify-between items-center mb-8">
-            <a 
-              href="#home" 
-              className="text-xl font-bold text-gradient"
-              onClick={(e) => {
-                e.preventDefault();
-                handleNavItemClick("#home");
-              }}
-            >
-              Arpan's Portfolio
-            </a>
-            <button 
-              className="p-2 bg-foreground/10 rounded-full"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              <X size={20} />
-            </button>
-          </div>
+          <div 
+            className="absolute inset-0 bg-background/80 backdrop-blur-xl"
+            onClick={() => setMobileMenuOpen(false)}
+          />
           
-          <nav className="flex flex-col space-y-6 mt-4">
-            {navItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  "text-lg font-medium py-2 px-4 rounded-lg transition-all duration-300",
-                  activeSection === item.href.substring(1) 
-                    ? "bg-primary/10 text-primary" 
-                    : "text-foreground/80 hover:bg-foreground/10"
-                )}
+          <div 
+            className={cn(
+              "absolute top-0 bottom-0 w-full max-w-xs backdrop-blur-xl bg-background/40 border-r border-white/10 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.3)] p-6 transition-transform duration-300 flex flex-col h-full",
+              mobileMenuOpen ? "right-0" : "-right-full"
+            )}
+          >
+            <div className="flex justify-between items-center mb-8">
+              <a 
+                href="#home" 
+                className="text-xl font-bold text-gradient"
                 onClick={(e) => {
                   e.preventDefault();
-                  handleNavItemClick(item.href);
+                  handleNavItemClick("#home");
                 }}
               >
-                {item.label}
+                Arpan's Portfolio
               </a>
-            ))}
-          </nav>
-          
-          <div className="mt-auto pt-6">
-            <GlowingButton 
-              className="w-full" 
-              glowColor="blue" 
-              size="md" 
-              onClick={() => {
-                handleNavItemClick("#contact");
-              }}
-            >
-              Get in Touch
-            </GlowingButton>
+              <button 
+                className="p-2 bg-foreground/10 rounded-full"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <X size={20} />
+              </button>
+            </div>
+            
+            <nav className="flex flex-col space-y-6 mt-4">
+              {navItems.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className={cn(
+                    "text-lg font-medium py-2 px-4 rounded-lg transition-all duration-300",
+                    activeSection === item.href.substring(1) 
+                      ? "bg-primary/10 text-primary" 
+                      : "text-foreground/80 hover:bg-foreground/10"
+                  )}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavItemClick(item.href);
+                  }}
+                >
+                  {item.label}
+                </a>
+              ))}
+            </nav>
+            
+            <div className="mt-auto pt-6">
+              <GlowingButton 
+                className="w-full" 
+                glowColor="blue" 
+                size="md" 
+                onClick={() => {
+                  handleNavItemClick("#contact");
+                }}
+              >
+                Get in Touch
+              </GlowingButton>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </header>
   );
 };
