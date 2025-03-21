@@ -27,7 +27,7 @@ A modern, responsive portfolio website built with React, Vite, and TailwindCSS, 
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/CrazyArpan/futurist-3d-showcase.git
+git clone [https://github.com/CrazyArpan/ArpanFullstackPortfolio.git](https://github.com/CrazyArpan/ArpanFullstackPortfolio)
 ```
 
 2. Install dependencies:
