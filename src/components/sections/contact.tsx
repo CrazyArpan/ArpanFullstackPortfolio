@@ -33,10 +33,10 @@ export const Contact = () => {
 
     // Replace with your actual EmailJS service ID, template ID, and public key
     emailjs.sendForm(
-      'YOUR_SERVICE_ID',
-      'YOUR_TEMPLATE_ID',
+      'service_dthfr8k',
+      'template_wglgtfk',
       formRef.current,
-      'YOUR_PUBLIC_KEY'
+      'gk8c6UeFIreq7-rPw'
     )
     .then((result) => {
       setSubmitStatus('success');
@@ -100,7 +100,7 @@ export const Contact = () => {
                   <div>
                     <h4 className="font-medium mb-1">Email</h4>
                     <a href="mailto:hello@portfolio.com" className="text-foreground/70 hover:text-primary transition-colors">
-                      hello@portfolio.com
+                      arpabdas02@gmail.com
                     </a>
                   </div>
                 </div>
@@ -112,7 +112,7 @@ export const Contact = () => {
                   <div>
                     <h4 className="font-medium mb-1">Phone</h4>
                     <a href="tel:+1(555)1234567" className="text-foreground/70 hover:text-primary transition-colors">
-                      +1 (555) 123-4567
+                      +91  8927559821
                     </a>
                   </div>
                 </div>
@@ -124,7 +124,7 @@ export const Contact = () => {
                   <div>
                     <h4 className="font-medium mb-1">Location</h4>
                     <p className="text-foreground/70">
-                      San Francisco, CA
+                      Indas, West Bengal
                     </p>
                   </div>
                 </div>

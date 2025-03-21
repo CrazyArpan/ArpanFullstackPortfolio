@@ -1,4 +1,3 @@
-
 import React from "react";
 import { TextReveal } from "../ui/animated-text";
 import { ParallaxSection } from "../ui/parallax-section";
@@ -9,8 +8,8 @@ export const About = () => {
   const handleDownloadCV = () => {
     // Create a link to download the CV
     const link = document.createElement('a');
-    link.href = '/resume.pdf'; // Path to the CV file in the public folder
-    link.download = 'resume.pdf';
+    link.href = '/ARPAN_DAS.pdf'; // Path to your resume in the public folder
+    link.download = 'ARPAN_DAS.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -27,14 +26,14 @@ export const About = () => {
 
       <div className="container mx-auto px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 items-center">
-          {/* Avatar/Image - smaller version */}
+          {/* Avatar/Image */}
           <div className="w-full lg:w-4/12">
             <ParallaxSection strength={20}>
               <div className="relative max-w-[280px] mx-auto">
                 <div className="rounded-2xl overflow-hidden">
                   <img
-                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1974&auto=format&fit=crop"
-                    alt="Developer"
+                    src="/ad.jpeg" // Add your profile image to the public folder
+                    alt="Arpan Das"
                     className="w-full h-auto object-cover rounded-2xl"
                   />
                 </div>
@@ -53,41 +52,44 @@ export const About = () => {
 
             <TextReveal>
               <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                Crafting digital experiences with precision and creativity
+                Building the future of Fullstack development
               </h2>
             </TextReveal>
 
             <div className="space-y-4 mb-8 text-foreground/70">
               <TextReveal>
                 <p>
-                  I'm a frontend developer and UI/UX designer with a passion for creating beautiful,
-                  functional, and user-centered digital experiences. With 5+ years of experience in
-                  the field, I am constantly exploring new technologies and techniques to enhance my skills.
+                  I'm a passionate MCA student and fullstack developer, specializing in creating modern web applications 
+                  with React, Next.js, and Node.js. My journey in web development is driven by a desire to build 
+                  scalable, user-friendly solutions that make a real impact.
                 </p>
               </TextReveal>
               
               <TextReveal>
                 <p>
-                  My approach combines technical expertise with creative problem-solving to deliver
-                  solutions that not only meet but exceed expectations. I believe in the power of
-                  thoughtful design and clean code to transform ideas into impactful digital products.
+                  With a strong foundation in both frontend and backend development, I focus on delivering 
+                  high-quality code and exceptional user experiences. I'm constantly learning and adapting to 
+                  new technologies, ensuring that I stay at the forefront of web development trends and best practices.
+                </p>
+              </TextReveal>
+
+              <TextReveal>
+                <p>
+                  My technical expertise includes modern JavaScript frameworks, responsive design, API integration, 
+                  and database management. I'm particularly interested in creating performant applications that 
+                  combine beautiful interfaces with robust functionality.
                 </p>
               </TextReveal>
             </div>
 
             <div className="flex flex-wrap gap-4">
-              <GlowingButton glowColor="purple">
-                <User size={16} className="mr-2" />
-                More About Me
-              </GlowingButton>
-              
               <GlowingButton 
                 variant="outline" 
                 glowColor="blue"
                 onClick={handleDownloadCV}
               >
                 <Download size={16} className="mr-2" />
-                Download CV
+                Download Resume
               </GlowingButton>
             </div>
           </div>

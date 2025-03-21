@@ -139,21 +139,21 @@ export const Footer = () => {
             <ul className="space-y-2">
               <li>
                 <a 
-                  href="mailto:hello@portfolio.com" 
+                  href="mailto:arpabdas02@gmail.com" 
                   className="text-foreground/70 hover:text-primary transition-colors"
                 >
-                  hello@portfolio.com
+                  arpabdas02@gmail.com
                 </a>
               </li>
               <li>
                 <a 
-                  href="tel:+15551234567" 
+                  href="tel:+91 8927559821" 
                   className="text-foreground/70 hover:text-primary transition-colors"
                 >
-                  +1 (555) 123-4567
+                  +91 8927559821
                 </a>
               </li>
-              <li className="text-foreground/70">San Francisco, CA</li>
+              <li className="text-foreground/70">Indas, West Bengal</li>
             </ul>
             <motion.div 
               className="mt-4"
@@ -175,7 +175,7 @@ export const Footer = () => {
           className="mt-12 pt-6 border-t border-border/30 text-center text-sm text-muted-foreground"
           variants={itemAnimation}
         >
-          <p>© {currentYear} Portfolio. All rights reserved.</p>
+          <p>© {currentYear} Arpan Das. All rights reserved.</p>
         </motion.div>
       </div>
     </motion.footer>

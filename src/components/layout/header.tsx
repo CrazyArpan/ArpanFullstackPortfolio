@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { GlowingButton } from "../ui/glowing-button";
@@ -37,23 +36,60 @@ export const Header = () => {
 
       // Update active section based on scroll position
       const sections = ["home", "about", "skills", "projects", "contact"];
+      let currentSection = "home";
       
+      // Get the current scroll position
+      const scrollPosition = window.scrollY;
+      const viewportMiddle = window.innerHeight / 2;
+      
+      // Find which section is currently in view
       for (const section of sections) {
         const element = document.getElementById(section);
         if (element) {
           const rect = element.getBoundingClientRect();
-          if (rect.top <= 200 && rect.bottom >= 200) {
-            setActiveSection(section);
-            break;
+          const sectionTop = rect.top;
+          const sectionMiddle = sectionTop + rect.height / 2;
+          
+          // Check if section's middle point is closest to viewport middle
+          if (Math.abs(sectionMiddle - viewportMiddle) < window.innerHeight * 0.5) {
+            currentSection = section;
+          }
+          
+          // If section top is near viewport top (with header offset)
+          if (sectionTop <= 100 && sectionTop > -100) {
+            currentSection = section;
           }
         }
       }
+
+      // Special case for home section
+      if (scrollPosition < 100) {
+        currentSection = "home";
+      }
+      
+      // Special case for last section
+      const lastSection = document.getElementById("contact");
+      if (lastSection) {
+        const bottomOffset = window.innerHeight + scrollPosition;
+        const documentHeight = document.documentElement.scrollHeight;
+        if (bottomOffset >= documentHeight - 100) {
+          currentSection = "contact";
+        }
+      }
+      
+      setActiveSection(currentSection);
     };
 
     window.addEventListener("scroll", handleScroll);
-    // Initial check to set active section
+    window.addEventListener("resize", handleScroll);
+    
+    // Initial check
     handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
+    
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
   }, []);
 
   // Prevent body scroll when mobile menu is open
@@ -69,26 +105,56 @@ export const Header = () => {
   }, [mobileMenuOpen]);
 
   const handleNavItemClick = (href: string) => {
-    if (isMobile) {
-      setMobileMenuOpen(false);
-    }
-    // Allow a small delay for the mobile menu to close before scrolling
-    setTimeout(() => {
-      const element = document.querySelector(href);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
+    const sectionId = href.substring(1);
+    const element = document.getElementById(sectionId);
+    
+    if (element) {
+      if (isMobile) {
+        setMobileMenuOpen(false);
       }
-    }, isMobile ? 300 : 0);
+      
+      // Calculate scroll position with offset for header
+      const headerOffset = 80;
+      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+      const offsetPosition = elementPosition - headerOffset;
+
+      // Smooth scroll to the section
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
+      
+      // Update active section after a small delay to ensure scroll is complete
+      setTimeout(() => {
+        setActiveSection(sectionId);
+      }, 100);
+    }
   };
 
   return (
     <header
       className={cn(
-        "fixed top-0 left-0 w-full z-50 transition-all duration-300 py-4 px-6 lg:px-8",
-        scrolled ? "backdrop-blur-xl bg-background/30 shadow-md border-b border-white/10" : ""
+        "fixed top-0 left-0 w-full z-50 transition-all duration-300",
+        scrolled 
+          ? "bg-background/30 before:opacity-100" 
+          : "bg-transparent before:opacity-0"
       )}
     >
-      <div className="max-w-7xl mx-auto flex justify-between items-center">
+      {/* Glassmorphism layers */}
+      <div className="absolute inset-0 -z-10">
+        {/* Blur layer */}
+        <div className="absolute inset-0 backdrop-blur-md transition-opacity duration-300"></div>
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/50 to-transparent opacity-80"></div>
+        {/* Border */}
+        <div className={cn(
+          "absolute inset-x-0 bottom-0 h-[1px] transition-opacity duration-300",
+          scrolled ? "opacity-100" : "opacity-0",
+          "bg-gradient-to-r from-transparent via-white/15 to-transparent"
+        )}></div>
+      </div>
+
+      <div className="max-w-7xl mx-auto flex justify-between items-center relative z-10 py-4 px-6 lg:px-8">
         <div className="w-10"></div> {/* Empty div to maintain spacing */}
 
         {/* Desktop Navigation */}
@@ -102,10 +168,14 @@ export const Header = () => {
                 handleNavItemClick(item.href);
               }}
               className={cn(
-                "relative text-sm font-medium transition-colors duration-300 hover:text-primary",
-                activeSection === item.href.substring(1) ? "text-primary" : "text-foreground/80",
+                "relative text-sm font-medium transition-all duration-300",
+                activeSection === item.href.substring(1) 
+                  ? "text-primary" 
+                  : "text-foreground/70 hover:text-foreground",
                 "after:absolute after:left-0 after:bottom-0 after:h-0.5 after:bg-primary after:transition-all after:duration-300",
-                activeSection === item.href.substring(1) ? "after:w-full" : "after:w-0 hover:after:w-full"
+                activeSection === item.href.substring(1) 
+                  ? "after:w-full" 
+                  : "after:w-0 hover:after:w-full"
               )}
             >
               {item.label}
@@ -129,7 +199,12 @@ export const Header = () => {
         {/* Mobile Menu Toggle */}
         <div className="flex items-center md:hidden z-20">
           <button 
-            className="p-2 bg-foreground/10 rounded-full backdrop-blur-lg"
+            className={cn(
+              "p-2 rounded-full transition-all duration-300",
+              scrolled 
+                ? "bg-white/10 backdrop-blur-lg hover:bg-white/20" 
+                : "bg-background/5 hover:bg-white/10"
+            )}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
           >
@@ -149,35 +224,35 @@ export const Header = () => {
           )}
         >
           <div 
-            className="absolute inset-0 bg-background/80 backdrop-blur-xl"
+            className="absolute inset-0 bg-background/90 backdrop-blur-xl"
             onClick={() => setMobileMenuOpen(false)}
           />
           
           <div 
             className={cn(
-              "absolute top-0 bottom-0 w-full max-w-xs backdrop-blur-xl bg-background/40 border-r border-white/10 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.3)] p-6 transition-transform duration-300 flex flex-col h-full",
+              "absolute top-0 bottom-0 w-full max-w-xs bg-background/40 backdrop-blur-2xl border-l border-white/10 shadow-2xl transition-transform duration-300 flex flex-col h-full",
               mobileMenuOpen ? "right-0" : "-right-full"
             )}
           >
-            <div className="flex justify-end items-center mb-8">
+            <div className="flex justify-end items-center mb-8 p-6">
               <button 
-                className="p-2 bg-foreground/10 rounded-full"
+                className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-300"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <X size={20} />
               </button>
             </div>
             
-            <nav className="flex flex-col space-y-6 mt-4">
+            <nav className="flex flex-col space-y-2 px-4">
               {navItems.map((item) => (
                 <a
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "text-lg font-medium py-2 px-4 rounded-lg transition-all duration-300",
+                    "text-lg font-medium py-3 px-4 rounded-lg transition-all duration-300",
                     activeSection === item.href.substring(1) 
                       ? "bg-primary/10 text-primary" 
-                      : "text-foreground/80 hover:bg-foreground/10"
+                      : "text-foreground/70 hover:bg-white/10 hover:text-foreground"
                   )}
                   onClick={(e) => {
                     e.preventDefault();
@@ -189,7 +264,7 @@ export const Header = () => {
               ))}
             </nav>
             
-            <div className="mt-auto pt-6">
+            <div className="mt-auto p-6">
               <GlowingButton 
                 className="w-full" 
                 glowColor="blue" 

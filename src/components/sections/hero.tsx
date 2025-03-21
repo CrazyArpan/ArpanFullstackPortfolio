@@ -1,9 +1,9 @@
-
 import React, { useEffect, useState } from "react";
 import { ArrowDown, Mail, Github, Linkedin } from "lucide-react";
 import { ParallaxSection } from "../ui/parallax-section";
 import { GlowingButton } from "../ui/glowing-button";
 import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 export const Hero = () => {
   const [showArrow, setShowArrow] = useState(false);
@@ -14,7 +14,20 @@ export const Hero = () => {
       setShowArrow(true);
     }, 1200);
 
-    return () => clearTimeout(timeout);
+    // Hide arrow when scrolling past hero section
+    const handleScroll = () => {
+      const heroSection = document.getElementById('home');
+      if (heroSection) {
+        const rect = heroSection.getBoundingClientRect();
+        setShowArrow(rect.bottom > 0);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      clearTimeout(timeout);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   return (
@@ -36,7 +49,7 @@ export const Hero = () => {
                 transition={{ duration: 0.5 }}
                 className="inline-block py-1 px-3 rounded-full bg-primary/10 text-sm font-medium text-primary mb-6"
               >
-                Frontend Developer & UI/UX Designer
+                Fullstack Developer
               </motion.div>
             </ParallaxSection>
           </div>
@@ -81,18 +94,33 @@ export const Hero = () => {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
               >
-                <div className="flex items-center gap-2 text-foreground/70">
+                <a 
+                  href="mailto:arpabdas02@gmail.com"
+                  className="flex items-center gap-2 text-foreground/70 hover:text-primary transition-colors"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <Mail size={16} className="text-primary" />
                   <span>arpabdas02@gmail.com</span>
-                </div>
-                <div className="flex items-center gap-2 text-foreground/70">
+                </a>
+                <a 
+                  href="https://www.linkedin.com/in/arpan-das-mca/"
+                  className="flex items-center gap-2 text-foreground/70 hover:text-primary transition-colors"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <Linkedin size={16} className="text-primary" />
-                  <span>marpan-das-mca</span>
-                </div>
-                <div className="flex items-center gap-2 text-foreground/70">
+                  <span>arpan-das-mca</span>
+                </a>
+                <a 
+                  href="https://github.com/CrazyArpan"
+                  className="flex items-center gap-2 text-foreground/70 hover:text-primary transition-colors"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <Github size={16} className="text-primary" />
                   <span>CrazyArpan</span>
-                </div>
+                </a>
               </motion.div>
               
               <motion.div
@@ -101,10 +129,39 @@ export const Hero = () => {
                 transition={{ duration: 0.5, delay: 0.4 }}
               >
                 <div className="flex flex-wrap gap-4">
-                  <GlowingButton glowColor="blue" size="lg">
+                  <GlowingButton 
+                    glowColor="blue" 
+                    size="lg"
+                    onClick={() => {
+                      const projectsSection = document.getElementById("projects");
+                      if (projectsSection) {
+                        const headerOffset = 100;
+                        const elementPosition = projectsSection.offsetTop - headerOffset;
+                        window.scrollTo({
+                          top: elementPosition,
+                          behavior: "smooth"
+                        });
+                      }
+                    }}
+                  >
                     View Projects
                   </GlowingButton>
-                  <GlowingButton variant="outline" glowColor="cyan" size="lg">
+                  <GlowingButton 
+                    variant="outline" 
+                    glowColor="cyan" 
+                    size="lg"
+                    onClick={() => {
+                      const contactSection = document.getElementById("contact");
+                      if (contactSection) {
+                        const headerOffset = 100;
+                        const elementPosition = contactSection.offsetTop - headerOffset;
+                        window.scrollTo({
+                          top: elementPosition,
+                          behavior: "smooth"
+                        });
+                      }
+                    }}
+                  >
                     Contact Me
                   </GlowingButton>
                 </div>
@@ -116,37 +173,57 @@ export const Hero = () => {
 
       {/* Scroll indicator with simplified animation */}
       <div 
-        className={`absolute bottom-10 left-1/2 transform -translate-x-1/2 transition-opacity duration-500 ${showArrow ? 'opacity-100' : 'opacity-0'}`}
+        className={cn(
+          "absolute bottom-1  md:bottom-32 left-1/2 transform -translate-x-1/2 transition-all duration-500",
+          showArrow ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4",
+          "z-30"
+        )}
       >
         <a 
           href="#about" 
-          className="flex flex-col items-center text-foreground/50 hover:text-primary transition-colors"
+          className="flex flex-col items-center px-4 py-2 rounded-full hover:text-primary transition-all duration-300 group"
           aria-label="Scroll down"
           onClick={(e) => {
             e.preventDefault();
-            document.getElementById("about")?.scrollIntoView({ behavior: "smooth" });
+            const aboutSection = document.getElementById("about");
+            if (aboutSection) {
+              const headerOffset = 80;
+              const elementPosition = aboutSection.getBoundingClientRect().top + window.pageYOffset;
+              const offsetPosition = elementPosition - headerOffset;
+
+              window.scrollTo({
+                top: offsetPosition,
+                behavior: "smooth"
+              });
+            }
           }}
         >
-          <span className="text-sm mb-2">Scroll</span>
-          <ArrowDown size={20} className="animate-bounce" />
+          <span className="text-sm font-medium text-foreground/70 group-hover:text-primary transition-colors">Scroll</span>
+          <ArrowDown size={20} className="text-primary animate-bounce mt-1" />
         </a>
       </div>
 
-      {/* Simple static background elements */}
-      <div 
-        className="absolute top-1/3 right-[15%] w-32 h-32 rounded-full opacity-20"
-        style={{ background: "linear-gradient(45deg, #3b82f6, #06b6d4)" }}
-      />
-      
-      <div 
-        className="absolute bottom-1/3 left-[10%] w-48 h-48 rounded-full blur-3xl opacity-10"
-        style={{ background: "linear-gradient(135deg, #3b82f6, #8b5cf6)" }}
-      />
-      
-      <div 
-        className="absolute top-1/4 left-[15%] w-32 h-32 bg-glow-cyan/5 rounded-full blur-2xl -z-10"
-      />
-      
+      {/* Background elements */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/0 via-background/0 to-background/80"></div>
+        
+        {/* Your existing background elements */}
+        <div 
+          className="absolute top-1/3 right-[15%] w-32 h-32 rounded-full opacity-20"
+          style={{ background: "linear-gradient(45deg, #3b82f6, #06b6d4)" }}
+        />
+        
+        <div 
+          className="absolute bottom-1/3 left-[10%] w-48 h-48 rounded-full blur-3xl opacity-10"
+          style={{ background: "linear-gradient(135deg, #3b82f6, #8b5cf6)" }}
+        />
+        
+        <div 
+          className="absolute top-1/4 left-[15%] w-32 h-32 bg-glow-cyan/5 rounded-full blur-2xl -z-10"
+        />
+      </div>
+
       {/* Static particles - simplified to avoid performance issues */}
       <div className="absolute inset-0 -z-10 pointer-events-none overflow-hidden">
         {[...Array(8)].map((_, i) => (

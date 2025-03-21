@@ -3,8 +3,8 @@ import { RotatingSkillIcon } from "../ui/skill-icon";
 import { TextReveal } from "../ui/animated-text";
 import ParticlesBackground from "../ui/particles-background";
 import { 
-  Code2, Palette, Star, Lightbulb, Layers, 
-  Smartphone, Zap, Database, SlidersHorizontal, Search
+  Code2, Server, Star, Lightbulb, Layers, 
+  Database, Zap, Lock, SlidersHorizontal, Search
 } from "lucide-react";
 
 export const Skills = () => {
@@ -16,12 +16,12 @@ export const Skills = () => {
     { name: "Tailwind CSS", icon: <Code2 />, color: "bg-teal-500/10" },
   ];
 
-  const designSkills = [
-    { name: "UI Design", icon: <Palette />, color: "bg-purple-500/10" },
-    { name: "UX Design", icon: <Smartphone />, color: "bg-pink-500/10" },
-    { name: "Figma", icon: <Palette />, color: "bg-purple-500/10" },
-    { name: "Animations", icon: <Zap />, color: "bg-yellow-500/10" },
-    { name: "Responsive", icon: <SlidersHorizontal />, color: "bg-green-500/10" },
+  const backendSkills = [
+    { name: "Node.js", icon: <Server />, color: "bg-green-500/10" },
+    { name: "Python", icon: <Code2 />, color: "bg-blue-500/10" },
+    { name: "MongoDB", icon: <Database />, color: "bg-green-500/10" },
+    { name: "SQL", icon: <Database />, color: "bg-blue-500/10" },
+    { name: "Security", icon: <Lock />, color: "bg-red-500/10" },
   ];
 
   const otherSkills = [
@@ -87,17 +87,17 @@ export const Skills = () => {
             </div>
           </div>
 
-          {/* Design Skills */}
+          {/* Backend Skills */}
           <div className="glass-card p-8 rounded-2xl">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center">
-                <Palette className="text-purple-500" />
+              <div className="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center">
+                <Server className="text-green-500" />
               </div>
-              <h3 className="text-xl font-bold">Design</h3>
+              <h3 className="text-xl font-bold">Backend</h3>
             </div>
 
             <div className="grid grid-cols-3 gap-6">
-              {designSkills.map((skill, index) => (
+              {backendSkills.map((skill, index) => (
                 <RotatingSkillIcon
                   key={skill.name}
                   name={skill.name}

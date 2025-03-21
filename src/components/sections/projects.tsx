@@ -1,4 +1,3 @@
-
 import React from "react";
 import { ProjectCard } from "../ui/project-card";
 import { TextReveal } from "../ui/animated-text";
@@ -17,47 +16,39 @@ const projectsData = [
     description: "A modern e-commerce platform with a sleek user interface, product filtering, cart functionality, and secure checkout.",
     image: "https://images.unsplash.com/photo-1523726491678-bf852e717f6a?q=80&w=2070&auto=format&fit=crop",
     tags: ["React", "Next.js", "Tailwind CSS"],
-    link: "#"
+    link: "https://swift-cart-3mmq-ivabsmdzz-arpan-das-projects.vercel.app/"
   },
   {
     id: 2,
-    title: "Dashboard UI",
-    description: "A comprehensive admin dashboard with analytics, data visualization, and user management features.",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop",
-    tags: ["React", "Tailwind CSS", "Recharts"],
-    link: "#"
+    title: "Weather App",
+    description: "A modern weather application featuring real-time weather data, 7-day forecast, and interactive weather maps with location search.",
+    image: "https://images.unsplash.com/photo-1592210454359-9043f067919b?q=80&w=2070&auto=format&fit=crop",
+    tags: ["React", "OpenWeather API", "Tailwind CSS"],
+    link: "https://weather-tau-virid.vercel.app/"
   },
   {
     id: 3,
-    title: "Social Media App",
-    description: "A full-featured social media application with real-time messaging, post creation, and user profiles.",
-    image: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=1974&auto=format&fit=crop",
-    tags: ["React", "Firebase", "Styled Components"],
-    link: "#"
-  },
-  {
-    id: 4,
-    title: "Travel Booking",
-    description: "A travel booking platform with flight and hotel search, booking management, and payment processing.",
-    image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=2070&auto=format&fit=crop",
-    tags: ["Next.js", "Tailwind CSS", "Node.js"],
-    link: "#"
-  },
-  {
-    id: 5,
     title: "Productivity Tool",
     description: "A task management and productivity tool with calendar integration, notifications, and progress tracking.",
     image: "https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?q=80&w=2071&auto=format&fit=crop",
-    tags: ["React", "TypeScript", "Redux"],
-    link: "#"
+    tags: ["Next.js", "TypeScript", "Redux"],
+    link: "https://task-master-hazel-six.vercel.app/"
   },
   {
-    id: 6,
+    id: 4,
     title: "Portfolio Website",
     description: "A personal portfolio website with animated sections, project showcases, and contact form.",
     image: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?q=80&w=2069&auto=format&fit=crop",
     tags: ["React", "Framer Motion", "Tailwind CSS"],
     link: "#"
+  },
+  {
+    id: 5,
+    title: "ResumeACE",
+    description: "An AI-powered resume builder and analyzer that helps create professional resumes and provides instant feedback for optimization.",
+    image: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=2070&auto=format&fit=crop",
+    tags: ["React", "OpenAI API", "Tailwind CSS"],
+    link: "https://resume-ace-ats-ats-friendly-resume-builder.vercel.app/"
   }
 ];
 
