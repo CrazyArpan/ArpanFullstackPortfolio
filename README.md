@@ -8,7 +8,7 @@ A modern, responsive portfolio website built with React, Vite, and TailwindCSS, 
 - 🌟 Smooth animations and transitions
 - 📱 Fully responsive design
 - 🚀 Fast loading with Vite
-- 💅 Styled with TailwindCSS
+- 💅 Styled with TailwindCSS and Acternity UI
 - 🎭 Interactive sections
 - 📊 Project showcase
 - 📝 Contact form
