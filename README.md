@@ -1,58 +1,60 @@
-# Welcome to your Lovable project
+# Arpan Das - Portfolio Website
 
-## Project info
+A modern, responsive portfolio website built with React, Vite, and TailwindCSS, featuring a beautiful 3D showcase of my work and skills.
 
-**URL**: [https://lovable.dev/projects/b268bc4b-6571-47e6-9c21-f3e5a792b54a](https://arpan-das-portfolio.netlify.app/)
+## Features
 
-## How can I edit this code?
+- 🎨 Modern UI/UX with glassmorphism effects
+- 🌟 Smooth animations and transitions
+- 📱 Fully responsive design
+- 🚀 Fast loading with Vite
+- 💅 Styled with TailwindCSS
+- 🎭 Interactive sections
+- 📊 Project showcase
+- 📝 Contact form
 
-There are several ways of editing your application.
+## Tech Stack
 
-**Use your preferred IDE**
+- React
+- Vite
+- TypeScript
+- TailwindCSS
+- Framer Motion
+- Shadcn UI
+- Lucide Icons
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## Getting Started
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1. Clone the repository:
+```bash
+git clone https://github.com/CrazyArpan/futurist-3d-showcase.git
+```
 
-Follow these steps:
+2. Install dependencies:
+```bash
+npm install
+```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+3. Run the development server:
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+4. Build for production:
+```bash
+npm run build
+```
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Project Structure
 
-**Use GitHub Codespaces**
+- `/src` - Source code
+  - `/components` - React components
+  - `/lib` - Utility functions
+  - `/styles` - Global styles
+  - `/assets` - Static assets
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Contact
 
-## What technologies are used for this project?
-
-This project is built with .
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Acternity-ui
-- Tailwind CSS
-
-
+- Email: arpabdas02@gmail.com
+- LinkedIn: [arpan-das-mca](https://www.linkedin.com/in/arpan-das-mca/)
+- GitHub: [CrazyArpan](https://github.com/CrazyArpan)
