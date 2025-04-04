@@ -11,25 +11,25 @@ export const Footer = () => {
   const socialLinks = [
     { 
       icon: Github, 
-      url: "https://github.com", 
+      url: "https://github.com/CrazyArpan", 
       label: "GitHub",
       hoverColor: "hover:text-blue-400" 
     },
     { 
       icon: Linkedin, 
-      url: "https://linkedin.com", 
+      url: "https://www.linkedin.com/in/arpan-das-mca/", 
       label: "LinkedIn",
       hoverColor: "hover:text-blue-600" 
     },
     { 
       icon: Twitter, 
-      url: "https://twitter.com", 
+      url: "https://x.com/ArpanDas686248", 
       label: "Twitter",
       hoverColor: "hover:text-blue-500" 
     },
     { 
       icon: Mail, 
-      url: "mailto:hello@portfolio.com", 
+      url: "mailto:arpabdas02@gmail.com", 
       label: "Email",
       hoverColor: "hover:text-purple-500" 
     }
